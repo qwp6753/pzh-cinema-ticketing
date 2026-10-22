@@ -1,0 +1,205 @@
+{
+  "mysqlVersion": "D:\\MySQL\\MySQL Server 8.0\\bin\\mysqld.exe  Ver 8.0.44 for Win64 on x86_64 (MySQL Community Server - GPL)",
+  "tests": [
+    {
+      "name": "isolated_server",
+      "status": "PASS",
+      "evidence": "Loopback only, temporary datadir, dynamic port 49287; existing MySQL services not used"
+    },
+    {
+      "name": "import_all_sql_files",
+      "status": "PASS",
+      "evidence": "mysql batch import completed without error, including UTF-8 seed content"
+    },
+    {
+      "name": "table_count",
+      "status": "PASS",
+      "evidence": "55"
+    },
+    {
+      "name": "view_count",
+      "status": "PASS",
+      "evidence": "4"
+    },
+    {
+      "name": "chinese_seed_roundtrip",
+      "status": "PASS",
+      "evidence": "攀枝花市"
+    },
+    {
+      "name": "demo_available_inventory",
+      "status": "PASS",
+      "evidence": "9"
+    },
+    {
+      "name": "demo_sold_inventory",
+      "status": "PASS",
+      "evidence": "1"
+    },
+    {
+      "name": "demo_cinema_net_sales",
+      "status": "PASS",
+      "evidence": "40.00"
+    },
+    {
+      "name": "platform_dau_distinct",
+      "status": "PASS",
+      "evidence": "1"
+    },
+    {
+      "name": "role_permission_seed",
+      "status": "PASS",
+      "evidence": "42"
+    },
+    {
+      "name": "duplicate_screening_seat",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "cross_cinema_seat_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1452 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "negative_ticket_price_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 3819 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "invalid_lock_shape_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 3819 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "coupon_overissue_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 3819 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "rating_out_of_range_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 3819 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_favorite_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "negative_points_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 3819 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_provider_trade_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "cross_role_scope_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1452 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_global_grant_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "cross_user_order_hold_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1452 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_active_sale_item_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "sold_inventory_owner_mismatch_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1452 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_inflight_after_sale_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_successful_verification_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_coupon_claim_to_orders_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "order_amount_mismatch_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 3819 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "paid_order_requires_claimed_payment",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 3819 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "refund_provider_mismatch_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1452 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "duplicate_provider_refund_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1062 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "change_new_item_order_mismatch_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1452 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "verification_cross_cinema_rejected",
+      "status": "PASS",
+      "evidence": "MySQL ERROR 1452 rejected the invalid write; connection-close rollback"
+    },
+    {
+      "name": "global_dau_deduplicates_cinemas",
+      "status": "PASS",
+      "evidence": "1"
+    },
+    {
+      "name": "zero_price_order_needs_no_fake_payment",
+      "status": "PASS",
+      "evidence": "1"
+    },
+    {
+      "name": "refunded_seat_can_be_resold_with_history",
+      "status": "PASS",
+      "evidence": "1"
+    },
+    {
+      "name": "read_only_consistency_queries",
+      "status": "PASS",
+      "evidence": "All four business consistency issue counts are zero"
+    },
+    {
+      "name": "two_connection_seat_race",
+      "status": "PASS",
+      "evidence": "0,1"
+    },
+    {
+      "name": "one_lock_winner_persisted",
+      "status": "PASS",
+      "evidence": "1"
+    }
+  ],
+  "tableCount": 55,
+  "viewCount": 4,
+  "constraintCounts": "CHECK\t128\r\nFOREIGN KEY\t99\r\nPRIMARY KEY\t55\r\nUNIQUE\t84",
+  "result": "PASS",
+  "serverStopped": true
+}

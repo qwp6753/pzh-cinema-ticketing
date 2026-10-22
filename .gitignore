@@ -1,0 +1,19 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.yaml
+# Build outputs
+node_modules/
+dist/
+unpackage/
+target/
+*.log
+.idea/
+.vscode/
+.DS_Store
+# Local database runtime files
+mysql-data/
+redis-data/
+work/

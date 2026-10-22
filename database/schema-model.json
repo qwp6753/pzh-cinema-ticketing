@@ -1,0 +1,6783 @@
+{
+  "tables": [
+    {
+      "group": "账号权限",
+      "name": "sys_region",
+      "title": "区域字典",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "parent_id",
+          "type": "BIGINT NULL",
+          "note": "父区域"
+        },
+        {
+          "name": "region_code",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "项目内区域编号，不作为行政区划编码"
+        },
+        {
+          "name": "region_name",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "区域名称"
+        },
+        {
+          "name": "level_no",
+          "type": "TINYINT NOT NULL DEFAULT 1",
+          "note": "层级：1城市、2区县"
+        },
+        {
+          "name": "sort_no",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "显示顺序"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ENABLED'",
+          "note": "状态；ENABLED/DISABLED",
+          "check": "`status` IN ('ENABLED', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "region_code"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "parent_id"
+          ],
+          "table": "sys_region",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "level_no IN (1,2)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ENABLED', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "账号权限",
+      "name": "sys_user",
+      "title": "统一用户账号",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "username",
+          "type": "VARCHAR(64) NULL",
+          "note": "用户名"
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR(32) NULL",
+          "note": "手机号；未绑定时为NULL"
+        },
+        {
+          "name": "password_hash",
+          "type": "VARCHAR(100) COLLATE utf8mb4_bin NULL",
+          "note": "BCrypt密码摘要；禁止明文，演示账号不设置密码"
+        },
+        {
+          "name": "wechat_app_id",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NULL",
+          "note": "微信应用标识"
+        },
+        {
+          "name": "wechat_openid",
+          "type": "VARCHAR(128) COLLATE utf8mb4_bin NULL",
+          "note": "微信OpenID；按应用隔离"
+        },
+        {
+          "name": "wechat_unionid",
+          "type": "VARCHAR(128) COLLATE utf8mb4_bin NULL",
+          "note": "微信UnionID"
+        },
+        {
+          "name": "nickname",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "昵称"
+        },
+        {
+          "name": "avatar_url",
+          "type": "VARCHAR(512) NULL",
+          "note": "头像地址"
+        },
+        {
+          "name": "gender",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'UNKNOWN'",
+          "note": "性别；UNKNOWN/MALE/FEMALE",
+          "check": "`gender` IN ('UNKNOWN', 'MALE', 'FEMALE')"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ACTIVE'",
+          "note": "账号状态；ACTIVE/LOCKED/CLOSED",
+          "check": "`status` IN ('ACTIVE', 'LOCKED', 'CLOSED')"
+        },
+        {
+          "name": "last_login_at",
+          "type": "DATETIME(3) NULL",
+          "note": "最近登录时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "username"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "phone"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "wechat_app_id",
+            "wechat_openid"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "wechat_unionid"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "username IS NOT NULL OR phone IS NOT NULL OR wechat_openid IS NOT NULL"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(wechat_app_id IS NULL AND wechat_openid IS NULL) OR (wechat_app_id IS NOT NULL AND wechat_openid IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`gender` IN ('UNKNOWN', 'MALE', 'FEMALE')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ACTIVE', 'LOCKED', 'CLOSED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "账号权限",
+      "name": "sys_role",
+      "title": "角色",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "role_code",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "角色编码"
+        },
+        {
+          "name": "role_name",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "角色名称"
+        },
+        {
+          "name": "scope_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'GLOBAL'",
+          "note": "授权范围；GLOBAL/CINEMA",
+          "check": "`scope_type` IN ('GLOBAL', 'CINEMA')"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ENABLED'",
+          "note": "状态；ENABLED/DISABLED",
+          "check": "`status` IN ('ENABLED', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "role_code"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "scope_type"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`scope_type` IN ('GLOBAL', 'CINEMA')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ENABLED', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "账号权限",
+      "name": "sys_permission",
+      "title": "权限与菜单",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "parent_id",
+          "type": "BIGINT NULL",
+          "note": "父权限"
+        },
+        {
+          "name": "permission_code",
+          "type": "VARCHAR(96) NOT NULL",
+          "note": "后端权限编码"
+        },
+        {
+          "name": "permission_name",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "名称"
+        },
+        {
+          "name": "permission_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'MENU'",
+          "note": "类型；MENU/BUTTON/API",
+          "check": "`permission_type` IN ('MENU', 'BUTTON', 'API')"
+        },
+        {
+          "name": "route_path",
+          "type": "VARCHAR(200) NULL",
+          "note": "前端路由"
+        },
+        {
+          "name": "sort_no",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "显示顺序"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ENABLED'",
+          "note": "状态；ENABLED/DISABLED",
+          "check": "`status` IN ('ENABLED', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "permission_code"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "parent_id"
+          ],
+          "table": "sys_permission",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`permission_type` IN ('MENU', 'BUTTON', 'API')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ENABLED', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "账号权限",
+      "name": "sys_role_permission",
+      "title": "角色权限关联",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "role_id",
+          "type": "BIGINT NOT NULL",
+          "note": "角色"
+        },
+        {
+          "name": "permission_id",
+          "type": "BIGINT NOT NULL",
+          "note": "权限"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "role_id",
+            "permission_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "role_id"
+          ],
+          "table": "sys_role",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "permission_id"
+          ],
+          "table": "sys_permission",
+          "targets": [
+            "id"
+          ]
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "cinema",
+      "title": "影院基本资料",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_code",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "影院编号"
+        },
+        {
+          "name": "cinema_name",
+          "type": "VARCHAR(120) NOT NULL",
+          "note": "影院名称"
+        },
+        {
+          "name": "region_id",
+          "type": "BIGINT NOT NULL",
+          "note": "所属区县"
+        },
+        {
+          "name": "address",
+          "type": "VARCHAR(255) NOT NULL",
+          "note": "详细地址"
+        },
+        {
+          "name": "contact_phone",
+          "type": "VARCHAR(32) NULL",
+          "note": "业务联系电话"
+        },
+        {
+          "name": "longitude",
+          "type": "DECIMAL(10,7) NULL",
+          "note": "经度"
+        },
+        {
+          "name": "latitude",
+          "type": "DECIMAL(10,7) NULL",
+          "note": "纬度"
+        },
+        {
+          "name": "business_hours",
+          "type": "VARCHAR(120) NULL",
+          "note": "营业时间说明"
+        },
+        {
+          "name": "cover_url",
+          "type": "VARCHAR(512) NULL",
+          "note": "封面图"
+        },
+        {
+          "name": "introduction",
+          "type": "TEXT NULL",
+          "note": "影院介绍"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PENDING'",
+          "note": "入驻及营业状态；PENDING/ACTIVE/SUSPENDED/REJECTED/CLOSED",
+          "check": "`status` IN ('PENDING', 'ACTIVE', 'SUSPENDED', 'REJECTED', 'CLOSED')"
+        },
+        {
+          "name": "refund_cutoff_minutes",
+          "type": "INT NOT NULL DEFAULT 60",
+          "note": "开场前允许退票的最短分钟数"
+        },
+        {
+          "name": "change_cutoff_minutes",
+          "type": "INT NOT NULL DEFAULT 60",
+          "note": "开场前允许改签的最短分钟数"
+        },
+        {
+          "name": "refund_fee_rate",
+          "type": "DECIMAL(5,4) NOT NULL DEFAULT 0",
+          "note": "退票手续费率，0到1；以购票时快照为准"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "cinema_code"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "region_id"
+          ],
+          "table": "sys_region",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "region_id",
+            "status"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "refund_cutoff_minutes >= 0 AND change_cutoff_minutes >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "refund_fee_rate BETWEEN 0 AND 1"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "longitude IS NULL OR longitude BETWEEN -180 AND 180"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "latitude IS NULL OR latitude BETWEEN -90 AND 90"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('PENDING', 'ACTIVE', 'SUSPENDED', 'REJECTED', 'CLOSED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "账号权限",
+      "name": "sys_user_role",
+      "title": "用户角色授权",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "被授权用户"
+        },
+        {
+          "name": "role_id",
+          "type": "BIGINT NOT NULL",
+          "note": "角色"
+        },
+        {
+          "name": "scope_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'GLOBAL'",
+          "note": "授权范围；GLOBAL/CINEMA",
+          "check": "`scope_type` IN ('GLOBAL', 'CINEMA')"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NULL",
+          "note": "影院范围；全局角色为NULL"
+        },
+        {
+          "name": "scope_key",
+          "type": "BIGINT GENERATED ALWAYS AS (IFNULL(cinema_id, 0)) STORED",
+          "note": "唯一性辅助列；全局范围映射为0"
+        },
+        {
+          "name": "granted_by",
+          "type": "BIGINT NULL",
+          "note": "授权人"
+        },
+        {
+          "name": "expires_at",
+          "type": "DATETIME(3) NULL",
+          "note": "授权到期时间；NULL为长期"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "user_id",
+            "role_id",
+            "scope_key"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "role_id",
+            "scope_type"
+          ],
+          "table": "sys_role",
+          "targets": [
+            "id",
+            "scope_type"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "granted_by"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(scope_type = 'GLOBAL' AND cinema_id IS NULL) OR (scope_type = 'CINEMA' AND cinema_id IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`scope_type` IN ('GLOBAL', 'CINEMA')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "cinema_application",
+      "title": "影院入驻资质审核记录",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "申请对应的待审核影院"
+        },
+        {
+          "name": "applicant_id",
+          "type": "BIGINT NOT NULL",
+          "note": "申请人"
+        },
+        {
+          "name": "company_name",
+          "type": "VARCHAR(160) NOT NULL",
+          "note": "经营主体名称"
+        },
+        {
+          "name": "license_number",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "资质证照编号"
+        },
+        {
+          "name": "qualification_files",
+          "type": "JSON NOT NULL",
+          "note": "资质文件存储键数组；不保存公开敏感文件链接"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PENDING'",
+          "note": "审批状态；PENDING/APPROVED/REJECTED/WITHDRAWN",
+          "check": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'WITHDRAWN')"
+        },
+        {
+          "name": "reviewer_id",
+          "type": "BIGINT NULL",
+          "note": "平台审核人"
+        },
+        {
+          "name": "reviewed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "审核时间"
+        },
+        {
+          "name": "review_remark",
+          "type": "VARCHAR(500) NULL",
+          "note": "审核说明"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "applicant_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "reviewer_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'WITHDRAWN')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "账号权限",
+      "name": "cinema_admin_application",
+      "title": "影院管理员账号申请",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "申请账号"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "申请管理的影院"
+        },
+        {
+          "name": "role_id",
+          "type": "BIGINT NOT NULL",
+          "note": "申请的影院角色"
+        },
+        {
+          "name": "role_scope",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'CINEMA'",
+          "note": "限定为影院范围；CINEMA",
+          "check": "`role_scope` IN ('CINEMA')"
+        },
+        {
+          "name": "real_name",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "申请人姓名"
+        },
+        {
+          "name": "contact_phone",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "申请联系号码"
+        },
+        {
+          "name": "application_note",
+          "type": "VARCHAR(500) NULL",
+          "note": "申请说明"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PENDING'",
+          "note": "审核状态；PENDING/APPROVED/REJECTED/WITHDRAWN",
+          "check": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'WITHDRAWN')"
+        },
+        {
+          "name": "pending_user_id",
+          "type": "BIGINT GENERATED ALWAYS AS (CASE WHEN status = 'PENDING' THEN user_id ELSE NULL END) STORED",
+          "note": "同一用户同一影院同一角色仅一条待审申请"
+        },
+        {
+          "name": "reviewer_id",
+          "type": "BIGINT NULL",
+          "note": "平台审核人"
+        },
+        {
+          "name": "reviewed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "审核时间"
+        },
+        {
+          "name": "review_remark",
+          "type": "VARCHAR(500) NULL",
+          "note": "审核说明"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "pending_user_id",
+            "cinema_id",
+            "role_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "role_id",
+            "role_scope"
+          ],
+          "table": "sys_role",
+          "targets": [
+            "id",
+            "scope_type"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "reviewer_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`role_scope` IN ('CINEMA')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'WITHDRAWN')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "cinema_hall",
+      "title": "影厅",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "所属影院"
+        },
+        {
+          "name": "hall_name",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "影厅名称"
+        },
+        {
+          "name": "hall_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'STANDARD'",
+          "note": "厅类型；STANDARD/IMAX/DOLBY/VIP",
+          "check": "`hall_type` IN ('STANDARD', 'IMAX', 'DOLBY', 'VIP')"
+        },
+        {
+          "name": "row_count",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "布局行数"
+        },
+        {
+          "name": "column_count",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "布局列数"
+        },
+        {
+          "name": "layout_version",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "座位布局版本"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ACTIVE'",
+          "note": "状态；ACTIVE/MAINTENANCE/DISABLED",
+          "check": "`status` IN ('ACTIVE', 'MAINTENANCE', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "cinema_id",
+            "hall_name"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "row_count > 0 AND column_count > 0 AND layout_version > 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`hall_type` IN ('STANDARD', 'IMAX', 'DOLBY', 'VIP')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ACTIVE', 'MAINTENANCE', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "cinema_seat",
+      "title": "影厅物理座位",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "hall_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影厅"
+        },
+        {
+          "name": "row_no",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "网格行号，从1开始"
+        },
+        {
+          "name": "column_no",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "网格列号，从1开始"
+        },
+        {
+          "name": "seat_label",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "可读座位号，例如3排5座"
+        },
+        {
+          "name": "seat_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'NORMAL'",
+          "note": "座位类型；NORMAL/VIP/ACCESSIBLE/COUPLE",
+          "check": "`seat_type` IN ('NORMAL', 'VIP', 'ACCESSIBLE', 'COUPLE')"
+        },
+        {
+          "name": "couple_group",
+          "type": "VARCHAR(32) NULL",
+          "note": "情侣座组合编号"
+        },
+        {
+          "name": "surcharge",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "座位加价"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ACTIVE'",
+          "note": "状态；过道不建座位记录；ACTIVE/DISABLED",
+          "check": "`status` IN ('ACTIVE', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "hall_id",
+            "row_no",
+            "column_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "hall_id",
+            "seat_label"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id",
+            "hall_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "hall_id",
+            "cinema_id"
+          ],
+          "table": "cinema_hall",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "row_no > 0 AND column_no > 0 AND surcharge >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`seat_type` IN ('NORMAL', 'VIP', 'ACCESSIBLE', 'COUPLE')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ACTIVE', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "film_category",
+      "title": "影片分类",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "category_name",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "分类名"
+        },
+        {
+          "name": "sort_no",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "显示顺序"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ENABLED'",
+          "note": "状态；ENABLED/DISABLED",
+          "check": "`status` IN ('ENABLED', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "category_name"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ENABLED', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "film",
+      "title": "全局影片库",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "film_name",
+          "type": "VARCHAR(160) NOT NULL",
+          "note": "影片名称"
+        },
+        {
+          "name": "original_name",
+          "type": "VARCHAR(160) NULL",
+          "note": "原名"
+        },
+        {
+          "name": "poster_url",
+          "type": "VARCHAR(512) NULL",
+          "note": "海报地址"
+        },
+        {
+          "name": "trailer_url",
+          "type": "VARCHAR(512) NULL",
+          "note": "预告片地址"
+        },
+        {
+          "name": "director",
+          "type": "VARCHAR(255) NOT NULL",
+          "note": "导演"
+        },
+        {
+          "name": "cast_list",
+          "type": "JSON NULL",
+          "note": "演员名数组"
+        },
+        {
+          "name": "country",
+          "type": "VARCHAR(80) NULL",
+          "note": "制片地区"
+        },
+        {
+          "name": "language",
+          "type": "VARCHAR(64) NULL",
+          "note": "语言"
+        },
+        {
+          "name": "duration_minutes",
+          "type": "INT NOT NULL DEFAULT 120",
+          "note": "片长分钟数"
+        },
+        {
+          "name": "release_date",
+          "type": "DATE NULL",
+          "note": "上映日期"
+        },
+        {
+          "name": "synopsis",
+          "type": "TEXT NOT NULL",
+          "note": "剧情简介"
+        },
+        {
+          "name": "release_status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'COMING'",
+          "note": "上映状态；COMING/SHOWING/FINISHED",
+          "check": "`release_status` IN ('COMING', 'SHOWING', 'FINISHED')"
+        },
+        {
+          "name": "publish_status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'DRAFT'",
+          "note": "平台上下架状态；DRAFT/PUBLISHED/OFFLINE",
+          "check": "`publish_status` IN ('DRAFT', 'PUBLISHED', 'OFFLINE')"
+        },
+        {
+          "name": "heat_score",
+          "type": "BIGINT NOT NULL DEFAULT 0",
+          "note": "热度派生值；可重建"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "publish_status",
+            "release_status",
+            "release_date"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "heat_score"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "duration_minutes > 0 AND heat_score >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`release_status` IN ('COMING', 'SHOWING', 'FINISHED')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`publish_status` IN ('DRAFT', 'PUBLISHED', 'OFFLINE')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "film_category_rel",
+      "title": "影片分类关联",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影片"
+        },
+        {
+          "name": "category_id",
+          "type": "BIGINT NOT NULL",
+          "note": "分类"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "film_id",
+            "category_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "film_id"
+          ],
+          "table": "film",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "category_id"
+          ],
+          "table": "film_category",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "category_id",
+            "film_id"
+          ]
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "cinema_film",
+      "title": "影院片库",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NOT NULL",
+          "note": "全局影片"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ENABLED'",
+          "note": "本院上架状态；ENABLED/DISABLED",
+          "check": "`status` IN ('ENABLED', 'DISABLED')"
+        },
+        {
+          "name": "local_note",
+          "type": "TEXT NULL",
+          "note": "本院展示补充说明"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "cinema_id",
+            "film_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "film_id"
+          ],
+          "table": "film",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ENABLED', 'DISABLED')"
+        }
+      ],
+      "purpose": "影院仅管理本院关联、排片及补充信息；平台维护全局影片元数据。"
+    },
+    {
+      "group": "会员营销",
+      "name": "member_level",
+      "title": "平台会员等级",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "level_code",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "等级编码"
+        },
+        {
+          "name": "level_name",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "名称"
+        },
+        {
+          "name": "required_growth",
+          "type": "BIGINT NOT NULL DEFAULT 0",
+          "note": "所需成长值"
+        },
+        {
+          "name": "ticket_discount_rate",
+          "type": "DECIMAL(5,4) NOT NULL DEFAULT 1",
+          "note": "会员票价乘数；0.9表示九折"
+        },
+        {
+          "name": "points_per_yuan",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "每消费1元获得积分"
+        },
+        {
+          "name": "sort_no",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "排序"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "level_code"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "required_growth"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "required_growth >= 0 AND ticket_discount_rate > 0 AND ticket_discount_rate <= 1 AND points_per_yuan >= 0"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "cinema_pricing_rule",
+      "title": "影院票价策略",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "rule_name",
+          "type": "VARCHAR(100) NOT NULL",
+          "note": "策略名称"
+        },
+        {
+          "name": "hall_id",
+          "type": "BIGINT NULL",
+          "note": "指定影厅；NULL适用全部"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NULL",
+          "note": "指定电影；NULL适用全部"
+        },
+        {
+          "name": "valid_from",
+          "type": "DATE NOT NULL",
+          "note": "生效日期"
+        },
+        {
+          "name": "valid_to",
+          "type": "DATE NOT NULL",
+          "note": "截止日期"
+        },
+        {
+          "name": "weekday_mask",
+          "type": "SMALLINT NOT NULL DEFAULT 127",
+          "note": "周一到周日七位掩码，127表示每天"
+        },
+        {
+          "name": "time_from",
+          "type": "TIME NOT NULL DEFAULT '00:00:00'",
+          "note": "适用的场次开始时间下限"
+        },
+        {
+          "name": "time_to",
+          "type": "TIME NOT NULL DEFAULT '23:59:59'",
+          "note": "适用的场次开始时间上限"
+        },
+        {
+          "name": "price_mode",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'FIXED'",
+          "note": "固定票价或乘数；FIXED/MULTIPLIER",
+          "check": "`price_mode` IN ('FIXED', 'MULTIPLIER')"
+        },
+        {
+          "name": "fixed_price",
+          "type": "DECIMAL(10,2) NULL",
+          "note": "固定基础价"
+        },
+        {
+          "name": "multiplier",
+          "type": "DECIMAL(5,4) NULL",
+          "note": "基础票价乘数"
+        },
+        {
+          "name": "priority",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "优先级，数值越大越优先"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ENABLED'",
+          "note": "状态；ENABLED/DISABLED",
+          "check": "`status` IN ('ENABLED', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "hall_id",
+            "cinema_id"
+          ],
+          "table": "cinema_hall",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "film_id"
+          ],
+          "table": "film",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "status",
+            "valid_from",
+            "valid_to"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "valid_to >= valid_from AND time_to > time_from AND weekday_mask BETWEEN 1 AND 127"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(price_mode = 'FIXED' AND fixed_price IS NOT NULL AND fixed_price > 0 AND multiplier IS NULL) OR (price_mode = 'MULTIPLIER' AND multiplier IS NOT NULL AND multiplier > 0 AND fixed_price IS NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`price_mode` IN ('FIXED', 'MULTIPLIER')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ENABLED', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "影院排片",
+      "name": "cinema_screening",
+      "title": "放映场次",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "hall_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影厅"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影片"
+        },
+        {
+          "name": "pricing_rule_id",
+          "type": "BIGINT NULL",
+          "note": "应用的票价策略快照来源"
+        },
+        {
+          "name": "starts_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "开场时间"
+        },
+        {
+          "name": "ends_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "影片结束时间"
+        },
+        {
+          "name": "hall_release_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "清场结束；排片冲突区间上界"
+        },
+        {
+          "name": "sale_starts_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "开始售票时间"
+        },
+        {
+          "name": "sale_ends_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "停止售票时间"
+        },
+        {
+          "name": "base_price",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "场次基础票价"
+        },
+        {
+          "name": "audio_language",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "放映语言"
+        },
+        {
+          "name": "projection_format",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "2D/3D/IMAX等"
+        },
+        {
+          "name": "layout_version",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "生成库存时的影厅布局版本"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'DRAFT'",
+          "note": "场次状态；DRAFT/ON_SALE/STOPPED/FINISHED/CANCELLED",
+          "check": "`status` IN ('DRAFT', 'ON_SALE', 'STOPPED', 'FINISHED', 'CANCELLED')"
+        },
+        {
+          "name": "version",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "乐观锁版本"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id",
+            "hall_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id",
+            "film_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "hall_id",
+            "cinema_id"
+          ],
+          "table": "cinema_hall",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id",
+            "film_id"
+          ],
+          "table": "cinema_film",
+          "targets": [
+            "cinema_id",
+            "film_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "pricing_rule_id",
+            "cinema_id"
+          ],
+          "table": "cinema_pricing_rule",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "film_id",
+            "status",
+            "starts_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "status",
+            "starts_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "hall_id",
+            "starts_at",
+            "hall_release_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "ends_at > starts_at AND hall_release_at >= ends_at"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "sale_starts_at < sale_ends_at AND sale_ends_at <= starts_at"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "base_price > 0 AND layout_version > 0 AND version >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('DRAFT', 'ON_SALE', 'STOPPED', 'FINISHED', 'CANCELLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "seat_hold",
+      "title": "临时锁座批次",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "hold_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "对外锁座批次号"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "锁座用户"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "screening_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次"
+        },
+        {
+          "name": "token_hash",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NOT NULL",
+          "note": "锁座凭证SHA-256摘要；原文只交给持有人"
+        },
+        {
+          "name": "expires_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "锁座绝对过期时间"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'HELD'",
+          "note": "锁座状态；HELD/ORDERED/CONSUMED/RELEASED/EXPIRED",
+          "check": "`status` IN ('HELD', 'ORDERED', 'CONSUMED', 'RELEASED', 'EXPIRED')"
+        },
+        {
+          "name": "version",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "乐观锁版本"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "hold_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "token_hash"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "screening_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "user_id",
+            "screening_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "screening_id",
+            "cinema_id"
+          ],
+          "table": "cinema_screening",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "expires_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "version >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('HELD', 'ORDERED', 'CONSUMED', 'RELEASED', 'EXPIRED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "screening_seat",
+      "title": "场次座位库存",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "screening_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "hall_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影厅"
+        },
+        {
+          "name": "seat_id",
+          "type": "BIGINT NOT NULL",
+          "note": "物理座位"
+        },
+        {
+          "name": "seat_label_snapshot",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "场次创建时的座位名称"
+        },
+        {
+          "name": "row_no_snapshot",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "行号快照"
+        },
+        {
+          "name": "column_no_snapshot",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "列号快照"
+        },
+        {
+          "name": "sale_price",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "本场次该座位含加价的销售基础价"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'AVAILABLE'",
+          "note": "库存状态；AVAILABLE/LOCKED/SOLD/DISABLED",
+          "check": "`status` IN ('AVAILABLE', 'LOCKED', 'SOLD', 'DISABLED')"
+        },
+        {
+          "name": "active_hold_id",
+          "type": "BIGINT NULL",
+          "note": "当前锁座批次；仅LOCKED非空"
+        },
+        {
+          "name": "locked_until",
+          "type": "DATETIME(3) NULL",
+          "note": "锁定截止时间；仅LOCKED非空"
+        },
+        {
+          "name": "sold_order_item_id",
+          "type": "BIGINT NULL",
+          "note": "当前有效售出的订单明细；仅SOLD非空"
+        },
+        {
+          "name": "version",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "乐观锁版本"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "screening_id",
+            "seat_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "screening_id",
+            "cinema_id",
+            "seat_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "screening_id",
+            "cinema_id",
+            "hall_id"
+          ],
+          "table": "cinema_screening",
+          "targets": [
+            "id",
+            "cinema_id",
+            "hall_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "seat_id",
+            "cinema_id",
+            "hall_id"
+          ],
+          "table": "cinema_seat",
+          "targets": [
+            "id",
+            "cinema_id",
+            "hall_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "active_hold_id",
+            "screening_id",
+            "cinema_id"
+          ],
+          "table": "seat_hold",
+          "targets": [
+            "id",
+            "screening_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "screening_id",
+            "status"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "locked_until"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "sale_price >= 0 AND version >= 0 AND row_no_snapshot > 0 AND column_no_snapshot > 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(status = 'LOCKED' AND active_hold_id IS NOT NULL AND locked_until IS NOT NULL AND sold_order_item_id IS NULL) OR (status = 'SOLD' AND sold_order_item_id IS NOT NULL AND active_hold_id IS NULL AND locked_until IS NULL) OR (status IN ('AVAILABLE','DISABLED') AND active_hold_id IS NULL AND locked_until IS NULL AND sold_order_item_id IS NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('AVAILABLE', 'LOCKED', 'SOLD', 'DISABLED')"
+        }
+      ],
+      "purpose": "数据库库存为最终事实；过期锁必须经原子事务释放，不能只依赖Redis TTL。"
+    },
+    {
+      "group": "交易票务",
+      "name": "seat_hold_item",
+      "title": "锁座批次明细",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "hold_id",
+          "type": "BIGINT NOT NULL",
+          "note": "锁座批次"
+        },
+        {
+          "name": "screening_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "screening_seat_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次库存"
+        },
+        {
+          "name": "seat_id",
+          "type": "BIGINT NOT NULL",
+          "note": "物理座位"
+        },
+        {
+          "name": "price_snapshot",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "锁座时票价快照"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "hold_id",
+            "screening_seat_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "hold_id",
+            "screening_id",
+            "cinema_id"
+          ],
+          "table": "seat_hold",
+          "targets": [
+            "id",
+            "screening_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "screening_seat_id",
+            "screening_id",
+            "cinema_id",
+            "seat_id"
+          ],
+          "table": "screening_seat",
+          "targets": [
+            "id",
+            "screening_id",
+            "cinema_id",
+            "seat_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "price_snapshot >= 0"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "ticket_order",
+      "title": "购票订单",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "order_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "对外订单号"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "购票用户"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "screening_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影片"
+        },
+        {
+          "name": "hold_id",
+          "type": "BIGINT NOT NULL",
+          "note": "对应锁座批次；一批次只生成一单"
+        },
+        {
+          "name": "ticket_count",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "购买张数"
+        },
+        {
+          "name": "original_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "原价合计"
+        },
+        {
+          "name": "discount_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "优惠合计"
+        },
+        {
+          "name": "payable_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "应付合计"
+        },
+        {
+          "name": "paid_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "实际认领的已支付金额"
+        },
+        {
+          "name": "refunded_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "已成功退款金额"
+        },
+        {
+          "name": "settled_payment_id",
+          "type": "BIGINT NULL",
+          "note": "被本订单认领的支付记录"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'UNPAID'",
+          "note": "订单主状态；UNPAID/PAID/CANCELLED/EXPIRED/COMPLETED",
+          "check": "`status` IN ('UNPAID', 'PAID', 'CANCELLED', 'EXPIRED', 'COMPLETED')"
+        },
+        {
+          "name": "expires_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "支付截止；不得晚于锁座到期"
+        },
+        {
+          "name": "paid_at",
+          "type": "DATETIME(3) NULL",
+          "note": "认领支付时间"
+        },
+        {
+          "name": "closed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "关闭时间"
+        },
+        {
+          "name": "film_name_snapshot",
+          "type": "VARCHAR(160) NOT NULL",
+          "note": "影片名称快照"
+        },
+        {
+          "name": "cinema_name_snapshot",
+          "type": "VARCHAR(120) NOT NULL",
+          "note": "影院名称快照"
+        },
+        {
+          "name": "hall_name_snapshot",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "影厅名称快照"
+        },
+        {
+          "name": "starts_at_snapshot",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "开场时间快照"
+        },
+        {
+          "name": "refund_cutoff_snapshot",
+          "type": "INT NOT NULL DEFAULT 60",
+          "note": "退票截止提前分钟快照"
+        },
+        {
+          "name": "change_cutoff_snapshot",
+          "type": "INT NOT NULL DEFAULT 60",
+          "note": "改签截止提前分钟快照"
+        },
+        {
+          "name": "refund_fee_rate_snapshot",
+          "type": "DECIMAL(5,4) NOT NULL DEFAULT 0",
+          "note": "退款手续费率快照"
+        },
+        {
+          "name": "version",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "乐观锁版本"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "order_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "hold_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "settled_payment_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "user_id",
+            "cinema_id",
+            "screening_id",
+            "film_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "user_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "hold_id",
+            "user_id",
+            "screening_id",
+            "cinema_id"
+          ],
+          "table": "seat_hold",
+          "targets": [
+            "id",
+            "user_id",
+            "screening_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "screening_id",
+            "cinema_id",
+            "film_id"
+          ],
+          "table": "cinema_screening",
+          "targets": [
+            "id",
+            "cinema_id",
+            "film_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "user_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "expires_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "paid_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "ticket_count > 0 AND original_amount >= 0 AND discount_amount >= 0 AND payable_amount >= 0 AND original_amount = discount_amount + payable_amount"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "paid_amount >= 0 AND paid_amount <= payable_amount AND refunded_amount >= 0 AND refunded_amount <= paid_amount"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(paid_amount = 0 AND settled_payment_id IS NULL) OR (paid_amount > 0 AND settled_payment_id IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "refund_cutoff_snapshot >= 0 AND change_cutoff_snapshot >= 0 AND refund_fee_rate_snapshot BETWEEN 0 AND 1 AND version >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('UNPAID', 'PAID', 'CANCELLED', 'EXPIRED', 'COMPLETED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "ticket_order_item",
+      "title": "订单座位明细",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "order_id",
+          "type": "BIGINT NOT NULL",
+          "note": "订单"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "用户"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "screening_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影片"
+        },
+        {
+          "name": "screening_seat_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次库存"
+        },
+        {
+          "name": "seat_id",
+          "type": "BIGINT NOT NULL",
+          "note": "物理座位"
+        },
+        {
+          "name": "seat_label_snapshot",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "座位名称快照"
+        },
+        {
+          "name": "original_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "本票原价"
+        },
+        {
+          "name": "discount_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "分摊优惠额"
+        },
+        {
+          "name": "payable_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "本票应付"
+        },
+        {
+          "name": "refunded_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "本票成功退款累计"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'UNPAID'",
+          "note": "票明细状态；UNPAID/VALID/VERIFIED/REFUNDED/EXCHANGED/CANCELLED",
+          "check": "`status` IN ('UNPAID', 'VALID', 'VERIFIED', 'REFUNDED', 'EXCHANGED', 'CANCELLED')"
+        },
+        {
+          "name": "active_screening_seat_id",
+          "type": "BIGINT GENERATED ALWAYS AS (CASE WHEN status IN ('UNPAID','VALID','VERIFIED') THEN screening_seat_id ELSE NULL END) STORED",
+          "note": "同一场次库存至多一条待支付或有效售票明细；历史退改记录允许保留"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "order_id",
+            "screening_seat_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "active_screening_seat_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "screening_seat_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "order_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "user_id",
+            "film_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "user_id",
+            "cinema_id",
+            "screening_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "order_id",
+            "user_id",
+            "cinema_id",
+            "screening_id",
+            "film_id"
+          ],
+          "table": "ticket_order",
+          "targets": [
+            "id",
+            "user_id",
+            "cinema_id",
+            "screening_id",
+            "film_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "screening_seat_id",
+            "screening_id",
+            "cinema_id",
+            "seat_id"
+          ],
+          "table": "screening_seat",
+          "targets": [
+            "id",
+            "screening_id",
+            "cinema_id",
+            "seat_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "screening_id",
+            "status"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "original_amount >= 0 AND discount_amount >= 0 AND payable_amount >= 0 AND original_amount = discount_amount + payable_amount AND refunded_amount >= 0 AND refunded_amount <= payable_amount"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('UNPAID', 'VALID', 'VERIFIED', 'REFUNDED', 'EXCHANGED', 'CANCELLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "payment_transaction",
+      "title": "支付尝试与渠道流水",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "payment_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "平台支付流水号"
+        },
+        {
+          "name": "order_id",
+          "type": "BIGINT NOT NULL",
+          "note": "订单"
+        },
+        {
+          "name": "provider",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'MOCK'",
+          "note": "支付渠道；MOCK只用于毕设沙箱；MOCK/WECHAT/ALIPAY",
+          "check": "`provider` IN ('MOCK', 'WECHAT', 'ALIPAY')"
+        },
+        {
+          "name": "provider_trade_no",
+          "type": "VARCHAR(128) COLLATE utf8mb4_bin NULL",
+          "note": "渠道交易号；未返回为NULL"
+        },
+        {
+          "name": "idempotency_key",
+          "type": "VARCHAR(96) COLLATE utf8mb4_bin NOT NULL",
+          "note": "创建支付请求幂等键"
+        },
+        {
+          "name": "amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "支付金额"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'CREATED'",
+          "note": "支付状态；CREATED/PENDING/SUCCESS/FAILED/CLOSED",
+          "check": "`status` IN ('CREATED', 'PENDING', 'SUCCESS', 'FAILED', 'CLOSED')"
+        },
+        {
+          "name": "succeeded_at",
+          "type": "DATETIME(3) NULL",
+          "note": "渠道成功时间"
+        },
+        {
+          "name": "failure_reason",
+          "type": "VARCHAR(500) NULL",
+          "note": "失败原因"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "payment_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "provider",
+            "provider_trade_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "idempotency_key"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "order_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "order_id",
+            "provider"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "order_id"
+          ],
+          "table": "ticket_order",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "order_id",
+            "status"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "amount > 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`provider` IN ('MOCK', 'WECHAT', 'ALIPAY')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('CREATED', 'PENDING', 'SUCCESS', 'FAILED', 'CLOSED')"
+        }
+      ],
+      "purpose": "允许记录同一订单发生的多笔真实成功扣款；订单只认领一笔，额外扣款按重复支付退款，不能丢失资金流水。"
+    },
+    {
+      "group": "交易票务",
+      "name": "payment_callback_event",
+      "title": "支付退款回调收件箱",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "provider",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'MOCK'",
+          "note": "渠道；MOCK/WECHAT/ALIPAY",
+          "check": "`provider` IN ('MOCK', 'WECHAT', 'ALIPAY')"
+        },
+        {
+          "name": "provider_event_id",
+          "type": "VARCHAR(128) COLLATE utf8mb4_bin NOT NULL",
+          "note": "渠道事件唯一编号"
+        },
+        {
+          "name": "event_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PAYMENT'",
+          "note": "事件类型；PAYMENT/REFUND",
+          "check": "`event_type` IN ('PAYMENT', 'REFUND')"
+        },
+        {
+          "name": "business_no",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "支付或退款商户单号"
+        },
+        {
+          "name": "payload_hash",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NOT NULL",
+          "note": "回调体摘要"
+        },
+        {
+          "name": "sanitized_payload",
+          "type": "JSON NULL",
+          "note": "验签后脱敏回调；不保留密钥、完整证件号等"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'RECEIVED'",
+          "note": "处理状态；RECEIVED/PROCESSED/RETRY/REJECTED",
+          "check": "`status` IN ('RECEIVED', 'PROCESSED', 'RETRY', 'REJECTED')"
+        },
+        {
+          "name": "retry_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "重试次数"
+        },
+        {
+          "name": "processed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "处理完成时间"
+        },
+        {
+          "name": "last_error",
+          "type": "VARCHAR(500) NULL",
+          "note": "最近错误"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "provider",
+            "provider_event_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "retry_count >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`provider` IN ('MOCK', 'WECHAT', 'ALIPAY')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`event_type` IN ('PAYMENT', 'REFUND')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('RECEIVED', 'PROCESSED', 'RETRY', 'REJECTED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "ticket",
+      "title": "电子票",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "ticket_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "电子票编号"
+        },
+        {
+          "name": "order_item_id",
+          "type": "BIGINT NOT NULL",
+          "note": "订单明细；一条明细一张电子票"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "持票用户"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "screening_id",
+          "type": "BIGINT NOT NULL",
+          "note": "场次"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'VALID'",
+          "note": "电子票状态；VALID/VERIFIED/FROZEN/REFUNDED/EXCHANGED/VOID",
+          "check": "`status` IN ('VALID', 'VERIFIED', 'FROZEN', 'REFUNDED', 'EXCHANGED', 'VOID')"
+        },
+        {
+          "name": "qr_version",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "二维码凭证版本；冻结、退改时递增以撤销旧码"
+        },
+        {
+          "name": "verified_at",
+          "type": "DATETIME(3) NULL",
+          "note": "成功核销时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "ticket_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "order_item_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "order_item_id",
+            "user_id",
+            "cinema_id",
+            "screening_id"
+          ],
+          "table": "ticket_order_item",
+          "targets": [
+            "id",
+            "user_id",
+            "cinema_id",
+            "screening_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "user_id",
+            "status"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "qr_version > 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('VALID', 'VERIFIED', 'FROZEN', 'REFUNDED', 'EXCHANGED', 'VOID')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "ticket_qr_token",
+      "title": "动态验票凭证",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "ticket_id",
+          "type": "BIGINT NOT NULL",
+          "note": "电子票"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "nonce_hash",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NOT NULL",
+          "note": "随机nonce的SHA-256摘要；禁止存明文动态码"
+        },
+        {
+          "name": "qr_version",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "签发时电子票版本"
+        },
+        {
+          "name": "valid_from",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "生效时间"
+        },
+        {
+          "name": "expires_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "短时过期时间"
+        },
+        {
+          "name": "consumed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "消费时间；成功验票后赋值"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "nonce_hash"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "ticket_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "ticket_id",
+            "cinema_id"
+          ],
+          "table": "ticket",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "ticket_id",
+            "expires_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "expires_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "expires_at > valid_from AND qr_version > 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "consumed_at IS NULL OR (consumed_at >= valid_from AND consumed_at < expires_at)"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "ticket_verification_log",
+      "title": "验票核销日志",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "扫码影院"
+        },
+        {
+          "name": "operator_id",
+          "type": "BIGINT NOT NULL",
+          "note": "验票工作人员"
+        },
+        {
+          "name": "ticket_id",
+          "type": "BIGINT NULL",
+          "note": "识别到的电子票；未知票可为NULL"
+        },
+        {
+          "name": "qr_token_id",
+          "type": "BIGINT NULL",
+          "note": "识别到的二维码凭证"
+        },
+        {
+          "name": "presented_token_hash",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NULL",
+          "note": "呈现凭证摘要，仅用于审计"
+        },
+        {
+          "name": "result",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'SUCCESS'",
+          "note": "验票结果；SUCCESS/INVALID/EXPIRED/USED/WRONG_CINEMA/FROZEN",
+          "check": "`result` IN ('SUCCESS', 'INVALID', 'EXPIRED', 'USED', 'WRONG_CINEMA', 'FROZEN')"
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(255) NULL",
+          "note": "结果说明"
+        },
+        {
+          "name": "success_ticket_id",
+          "type": "BIGINT GENERATED ALWAYS AS (CASE WHEN result = 'SUCCESS' THEN ticket_id ELSE NULL END) STORED",
+          "note": "一张电子票仅一条成功核销记录"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "success_ticket_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "operator_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "ticket_id",
+            "cinema_id"
+          ],
+          "table": "ticket",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "qr_token_id",
+            "ticket_id",
+            "cinema_id"
+          ],
+          "table": "ticket_qr_token",
+          "targets": [
+            "id",
+            "ticket_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "result <> 'SUCCESS' OR (ticket_id IS NOT NULL AND qr_token_id IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`result` IN ('SUCCESS', 'INVALID', 'EXPIRED', 'USED', 'WRONG_CINEMA', 'FROZEN')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "after_sale_request",
+      "title": "退票改签申请",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "request_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "申请单号"
+        },
+        {
+          "name": "request_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'REFUND'",
+          "note": "类型；REFUND/CHANGE",
+          "check": "`request_type` IN ('REFUND', 'CHANGE')"
+        },
+        {
+          "name": "original_order_id",
+          "type": "BIGINT NOT NULL",
+          "note": "原订单"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "申请人"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "target_screening_id",
+          "type": "BIGINT NULL",
+          "note": "改签目标场次；退款为NULL"
+        },
+        {
+          "name": "new_order_id",
+          "type": "BIGINT NULL",
+          "note": "改签生成的新订单；原单永不覆盖"
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(500) NOT NULL",
+          "note": "申请理由"
+        },
+        {
+          "name": "requested_refund",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "申请退款金额"
+        },
+        {
+          "name": "fee_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "退改手续费"
+        },
+        {
+          "name": "price_difference",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0",
+          "note": "改签差价；正数补款，负数退差"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PENDING'",
+          "note": "审批与执行状态；PENDING/APPROVED/REJECTED/PROCESSING/COMPLETED/CANCELLED/FAILED",
+          "check": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'PROCESSING', 'COMPLETED', 'CANCELLED', 'FAILED')"
+        },
+        {
+          "name": "reviewer_id",
+          "type": "BIGINT NULL",
+          "note": "审核管理员"
+        },
+        {
+          "name": "reviewed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "审核时间"
+        },
+        {
+          "name": "review_remark",
+          "type": "VARCHAR(500) NULL",
+          "note": "审批说明"
+        },
+        {
+          "name": "completed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "完成时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "request_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "new_order_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "original_order_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "new_order_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "original_order_id",
+            "user_id",
+            "cinema_id"
+          ],
+          "table": "ticket_order",
+          "targets": [
+            "id",
+            "user_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "new_order_id",
+            "user_id",
+            "cinema_id"
+          ],
+          "table": "ticket_order",
+          "targets": [
+            "id",
+            "user_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "target_screening_id",
+            "cinema_id"
+          ],
+          "table": "cinema_screening",
+          "targets": [
+            "id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "reviewer_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "requested_refund >= 0 AND fee_amount >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(request_type = 'REFUND' AND target_screening_id IS NULL AND new_order_id IS NULL AND price_difference = 0) OR (request_type = 'CHANGE' AND target_screening_id IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "new_order_id IS NULL OR new_order_id <> original_order_id"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`request_type` IN ('REFUND', 'CHANGE')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'PROCESSING', 'COMPLETED', 'CANCELLED', 'FAILED')"
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "original_order_id"
+          ]
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "after_sale_item",
+      "title": "退改座位明细",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "request_id",
+          "type": "BIGINT NOT NULL",
+          "note": "申请单"
+        },
+        {
+          "name": "original_order_id",
+          "type": "BIGINT NOT NULL",
+          "note": "原订单"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "original_order_item_id",
+          "type": "BIGINT NOT NULL",
+          "note": "原票明细"
+        },
+        {
+          "name": "new_order_id",
+          "type": "BIGINT NULL",
+          "note": "改签新订单；须与申请一致"
+        },
+        {
+          "name": "new_order_item_id",
+          "type": "BIGINT NULL",
+          "note": "改签后新票明细"
+        },
+        {
+          "name": "refund_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "本票申请退还金额"
+        },
+        {
+          "name": "fee_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "本票手续费"
+        },
+        {
+          "name": "released_at",
+          "type": "DATETIME(3) NULL",
+          "note": "处理终结并解除退改占用的时间"
+        },
+        {
+          "name": "active_order_item_id",
+          "type": "BIGINT GENERATED ALWAYS AS (CASE WHEN released_at IS NULL THEN original_order_item_id ELSE NULL END) STORED",
+          "note": "每张原票最多一个在途退改申请"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "request_id",
+            "original_order_item_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "active_order_item_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "request_id",
+            "original_order_id",
+            "cinema_id"
+          ],
+          "table": "after_sale_request",
+          "targets": [
+            "id",
+            "original_order_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "original_order_item_id",
+            "original_order_id",
+            "cinema_id"
+          ],
+          "table": "ticket_order_item",
+          "targets": [
+            "id",
+            "order_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "request_id",
+            "new_order_id",
+            "cinema_id"
+          ],
+          "table": "after_sale_request",
+          "targets": [
+            "id",
+            "new_order_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "new_order_item_id",
+            "new_order_id",
+            "cinema_id"
+          ],
+          "table": "ticket_order_item",
+          "targets": [
+            "id",
+            "order_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "refund_amount >= 0 AND fee_amount >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(new_order_id IS NULL AND new_order_item_id IS NULL) OR (new_order_id IS NOT NULL AND new_order_item_id IS NOT NULL)"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "payment_refund",
+      "title": "退款渠道流水",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "refund_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "平台退款单号"
+        },
+        {
+          "name": "order_id",
+          "type": "BIGINT NOT NULL",
+          "note": "订单"
+        },
+        {
+          "name": "payment_id",
+          "type": "BIGINT NOT NULL",
+          "note": "原支付记录"
+        },
+        {
+          "name": "provider",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'MOCK'",
+          "note": "原支付渠道；MOCK/WECHAT/ALIPAY",
+          "check": "`provider` IN ('MOCK', 'WECHAT', 'ALIPAY')"
+        },
+        {
+          "name": "after_sale_request_id",
+          "type": "BIGINT NULL",
+          "note": "关联退改申请；迟到或重复支付退款为NULL"
+        },
+        {
+          "name": "refund_reason",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'AFTER_SALE'",
+          "note": "退款原因；AFTER_SALE/LATE_PAYMENT/DUPLICATE_PAYMENT/SYSTEM_CANCEL",
+          "check": "`refund_reason` IN ('AFTER_SALE', 'LATE_PAYMENT', 'DUPLICATE_PAYMENT', 'SYSTEM_CANCEL')"
+        },
+        {
+          "name": "provider_refund_no",
+          "type": "VARCHAR(128) COLLATE utf8mb4_bin NULL",
+          "note": "渠道退款号"
+        },
+        {
+          "name": "idempotency_key",
+          "type": "VARCHAR(96) COLLATE utf8mb4_bin NOT NULL",
+          "note": "退款幂等键"
+        },
+        {
+          "name": "amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "退款金额"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'CREATED'",
+          "note": "退款状态；CREATED/PENDING/SUCCESS/FAILED",
+          "check": "`status` IN ('CREATED', 'PENDING', 'SUCCESS', 'FAILED')"
+        },
+        {
+          "name": "succeeded_at",
+          "type": "DATETIME(3) NULL",
+          "note": "退款成功时间"
+        },
+        {
+          "name": "failure_reason",
+          "type": "VARCHAR(500) NULL",
+          "note": "失败原因"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "refund_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "provider",
+            "provider_refund_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "idempotency_key"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "payment_id",
+            "order_id",
+            "provider"
+          ],
+          "table": "payment_transaction",
+          "targets": [
+            "id",
+            "order_id",
+            "provider"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "after_sale_request_id",
+            "order_id"
+          ],
+          "table": "after_sale_request",
+          "targets": [
+            "id",
+            "original_order_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "order_id",
+            "status"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "amount > 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(refund_reason = 'AFTER_SALE' AND after_sale_request_id IS NOT NULL) OR (refund_reason <> 'AFTER_SALE' AND after_sale_request_id IS NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`provider` IN ('MOCK', 'WECHAT', 'ALIPAY')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`refund_reason` IN ('AFTER_SALE', 'LATE_PAYMENT', 'DUPLICATE_PAYMENT', 'SYSTEM_CANCEL')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('CREATED', 'PENDING', 'SUCCESS', 'FAILED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "交易票务",
+      "name": "order_status_history",
+      "title": "订单状态流转日志",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "order_id",
+          "type": "BIGINT NOT NULL",
+          "note": "订单"
+        },
+        {
+          "name": "from_status",
+          "type": "VARCHAR(32) NULL",
+          "note": "原状态；创建为NULL"
+        },
+        {
+          "name": "to_status",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "新状态"
+        },
+        {
+          "name": "operator_id",
+          "type": "BIGINT NULL",
+          "note": "操作人；系统任务为NULL"
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(500) NOT NULL",
+          "note": "变更原因"
+        },
+        {
+          "name": "request_id",
+          "type": "VARCHAR(64) NULL",
+          "note": "请求追踪号"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "order_id"
+          ],
+          "table": "ticket_order",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "operator_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "order_id",
+            "created_at"
+          ]
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "user_favorite_film",
+      "title": "影片收藏",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "用户"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影片"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "user_id",
+            "film_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "film_id"
+          ],
+          "table": "film",
+          "targets": [
+            "id"
+          ]
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "member_account",
+      "title": "平台会员账户",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "会员用户"
+        },
+        {
+          "name": "member_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "会员号"
+        },
+        {
+          "name": "level_id",
+          "type": "BIGINT NOT NULL",
+          "note": "当前会员等级"
+        },
+        {
+          "name": "points_balance",
+          "type": "BIGINT NOT NULL DEFAULT 0",
+          "note": "可用积分"
+        },
+        {
+          "name": "growth_value",
+          "type": "BIGINT NOT NULL DEFAULT 0",
+          "note": "成长值"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ACTIVE'",
+          "note": "状态；ACTIVE/FROZEN",
+          "check": "`status` IN ('ACTIVE', 'FROZEN')"
+        },
+        {
+          "name": "version",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "乐观锁版本"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "user_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "member_no"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "level_id"
+          ],
+          "table": "member_level",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "points_balance >= 0 AND growth_value >= 0 AND version >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ACTIVE', 'FROZEN')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "member_points_ledger",
+      "title": "积分收支流水",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "member_account_id",
+          "type": "BIGINT NOT NULL",
+          "note": "会员账户"
+        },
+        {
+          "name": "points_delta",
+          "type": "BIGINT NOT NULL",
+          "note": "积分变化；增加为正、扣减为负"
+        },
+        {
+          "name": "balance_after",
+          "type": "BIGINT NOT NULL DEFAULT 0",
+          "note": "变化后余额"
+        },
+        {
+          "name": "source_type",
+          "type": "VARCHAR(32) NOT NULL",
+          "note": "来源：ORDER/REFUND/ACTIVITY/ADJUST等"
+        },
+        {
+          "name": "source_no",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "来源业务号"
+        },
+        {
+          "name": "idempotency_key",
+          "type": "VARCHAR(96) COLLATE utf8mb4_bin NOT NULL",
+          "note": "积分事件幂等键"
+        },
+        {
+          "name": "remark",
+          "type": "VARCHAR(255) NULL",
+          "note": "说明"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "idempotency_key"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "member_account_id"
+          ],
+          "table": "member_account",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "member_account_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "points_delta <> 0 AND balance_after >= 0"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "cinema_member",
+      "title": "本院会员关系",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "用户"
+        },
+        {
+          "name": "member_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "本院会员号"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ACTIVE'",
+          "note": "状态；ACTIVE/FROZEN",
+          "check": "`status` IN ('ACTIVE', 'FROZEN')"
+        },
+        {
+          "name": "total_net_spend",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "本院净消费派生值"
+        },
+        {
+          "name": "visit_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "本院已核销观影次数"
+        },
+        {
+          "name": "last_visit_at",
+          "type": "DATETIME(3) NULL",
+          "note": "最近观影时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "cinema_id",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "cinema_id",
+            "member_no"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "total_net_spend >= 0 AND visit_count >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ACTIVE', 'FROZEN')"
+        }
+      ],
+      "purpose": "影院管理员只查看本院会员关系与必要资料；平台会员账户不由影院越权修改。"
+    },
+    {
+      "group": "会员营销",
+      "name": "coupon_template",
+      "title": "优惠券模板",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "coupon_name",
+          "type": "VARCHAR(100) NOT NULL",
+          "note": "名称"
+        },
+        {
+          "name": "scope_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PLATFORM'",
+          "note": "适用范围；PLATFORM/CINEMA",
+          "check": "`scope_type` IN ('PLATFORM', 'CINEMA')"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NULL",
+          "note": "限定影院；平台券为NULL"
+        },
+        {
+          "name": "discount_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'FIXED'",
+          "note": "满减或折扣；FIXED/RATE",
+          "check": "`discount_type` IN ('FIXED', 'RATE')"
+        },
+        {
+          "name": "minimum_spend",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "最低原价门槛"
+        },
+        {
+          "name": "fixed_discount",
+          "type": "DECIMAL(10,2) NULL",
+          "note": "满减金额"
+        },
+        {
+          "name": "discount_rate",
+          "type": "DECIMAL(5,4) NULL",
+          "note": "支付比例；0.8表示八折"
+        },
+        {
+          "name": "max_discount",
+          "type": "DECIMAL(10,2) NULL",
+          "note": "折扣券优惠上限"
+        },
+        {
+          "name": "claim_starts_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "领券开始"
+        },
+        {
+          "name": "claim_ends_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "领券结束"
+        },
+        {
+          "name": "valid_from",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "使用开始"
+        },
+        {
+          "name": "valid_to",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "使用结束"
+        },
+        {
+          "name": "total_quantity",
+          "type": "INT NOT NULL DEFAULT 100",
+          "note": "总发行量"
+        },
+        {
+          "name": "issued_quantity",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "已发行量"
+        },
+        {
+          "name": "per_user_limit",
+          "type": "INT NOT NULL DEFAULT 1",
+          "note": "单人领取上限"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'DRAFT'",
+          "note": "模板状态；DRAFT/ACTIVE/DISABLED",
+          "check": "`status` IN ('DRAFT', 'ACTIVE', 'DISABLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "scope_type",
+            "cinema_id",
+            "status"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(scope_type = 'PLATFORM' AND cinema_id IS NULL) OR (scope_type = 'CINEMA' AND cinema_id IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(discount_type = 'FIXED' AND fixed_discount IS NOT NULL AND fixed_discount > 0 AND discount_rate IS NULL AND max_discount IS NULL) OR (discount_type = 'RATE' AND discount_rate IS NOT NULL AND discount_rate > 0 AND discount_rate < 1 AND fixed_discount IS NULL AND (max_discount IS NULL OR max_discount > 0))"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "minimum_spend >= 0 AND claim_ends_at > claim_starts_at AND valid_to > valid_from AND claim_starts_at <= valid_to"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "total_quantity >= 0 AND issued_quantity BETWEEN 0 AND total_quantity AND per_user_limit > 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`scope_type` IN ('PLATFORM', 'CINEMA')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`discount_type` IN ('FIXED', 'RATE')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('DRAFT', 'ACTIVE', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "user_coupon",
+      "title": "用户领券记录",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "coupon_no",
+          "type": "VARCHAR(40) NOT NULL",
+          "note": "券实例编号"
+        },
+        {
+          "name": "template_id",
+          "type": "BIGINT NOT NULL",
+          "note": "券模板"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "持有人"
+        },
+        {
+          "name": "valid_from",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "实际生效时间"
+        },
+        {
+          "name": "valid_to",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "实际失效时间"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'AVAILABLE'",
+          "note": "使用状态；AVAILABLE/LOCKED/USED/EXPIRED/VOID",
+          "check": "`status` IN ('AVAILABLE', 'LOCKED', 'USED', 'EXPIRED', 'VOID')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "coupon_no"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "id",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "template_id"
+          ],
+          "table": "coupon_template",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "user_id",
+            "status",
+            "valid_to"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "template_id",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "valid_to > valid_from"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('AVAILABLE', 'LOCKED', 'USED', 'EXPIRED', 'VOID')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "coupon_usage",
+      "title": "优惠券订单占用流水",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_coupon_id",
+          "type": "BIGINT NOT NULL",
+          "note": "用户券实例"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "持有人"
+        },
+        {
+          "name": "order_id",
+          "type": "BIGINT NOT NULL",
+          "note": "购票订单"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "discount_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "实际抵扣金额"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'RESERVED'",
+          "note": "占用状态；RESERVED/USED/RELEASED",
+          "check": "`status` IN ('RESERVED', 'USED', 'RELEASED')"
+        },
+        {
+          "name": "active_coupon_id",
+          "type": "BIGINT GENERATED ALWAYS AS (CASE WHEN status IN ('RESERVED','USED') THEN user_coupon_id ELSE NULL END) STORED",
+          "note": "一张券至多绑定一个在途或成功订单"
+        },
+        {
+          "name": "released_at",
+          "type": "DATETIME(3) NULL",
+          "note": "释放时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "order_id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "active_coupon_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_coupon_id",
+            "user_id"
+          ],
+          "table": "user_coupon",
+          "targets": [
+            "id",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "order_id",
+            "user_id",
+            "cinema_id"
+          ],
+          "table": "ticket_order",
+          "targets": [
+            "id",
+            "user_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "discount_amount >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('RESERVED', 'USED', 'RELEASED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "announcement",
+      "title": "平台及影院公告",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "scope_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PLATFORM'",
+          "note": "发布范围；PLATFORM/CINEMA",
+          "check": "`scope_type` IN ('PLATFORM', 'CINEMA')"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NULL",
+          "note": "发布影院；平台公告为NULL"
+        },
+        {
+          "name": "announcement_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'SYSTEM'",
+          "note": "公告类别；SYSTEM/PROMOTION/LOST_FOUND",
+          "check": "`announcement_type` IN ('SYSTEM', 'PROMOTION', 'LOST_FOUND')"
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR(200) NOT NULL",
+          "note": "标题"
+        },
+        {
+          "name": "content",
+          "type": "TEXT NOT NULL",
+          "note": "正文；展示前需清理危险HTML"
+        },
+        {
+          "name": "publisher_id",
+          "type": "BIGINT NOT NULL",
+          "note": "发布人"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'DRAFT'",
+          "note": "发布状态；DRAFT/PUBLISHED/OFFLINE",
+          "check": "`status` IN ('DRAFT', 'PUBLISHED', 'OFFLINE')"
+        },
+        {
+          "name": "publish_at",
+          "type": "DATETIME(3) NULL",
+          "note": "发布时间"
+        },
+        {
+          "name": "expires_at",
+          "type": "DATETIME(3) NULL",
+          "note": "展示结束时间"
+        },
+        {
+          "name": "is_pinned",
+          "type": "TINYINT NOT NULL DEFAULT 0",
+          "note": "置顶标志"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "publisher_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "scope_type",
+            "cinema_id",
+            "status",
+            "publish_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(scope_type = 'PLATFORM' AND cinema_id IS NULL) OR (scope_type = 'CINEMA' AND cinema_id IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "is_pinned IN (0,1)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "expires_at IS NULL OR publish_at IS NULL OR expires_at > publish_at"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`scope_type` IN ('PLATFORM', 'CINEMA')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`announcement_type` IN ('SYSTEM', 'PROMOTION', 'LOST_FOUND')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('DRAFT', 'PUBLISHED', 'OFFLINE')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "marketing_activity",
+      "title": "平台及门店活动",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "scope_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PLATFORM'",
+          "note": "活动范围；PLATFORM/CINEMA",
+          "check": "`scope_type` IN ('PLATFORM', 'CINEMA')"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NULL",
+          "note": "所属影院"
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR(160) NOT NULL",
+          "note": "活动名称"
+        },
+        {
+          "name": "description",
+          "type": "TEXT NOT NULL",
+          "note": "活动说明"
+        },
+        {
+          "name": "publisher_id",
+          "type": "BIGINT NOT NULL",
+          "note": "发布人"
+        },
+        {
+          "name": "reward_coupon_template_id",
+          "type": "BIGINT NULL",
+          "note": "奖励券模板"
+        },
+        {
+          "name": "signup_starts_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "报名开始"
+        },
+        {
+          "name": "signup_ends_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "报名截止"
+        },
+        {
+          "name": "starts_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "活动开始"
+        },
+        {
+          "name": "ends_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "活动结束"
+        },
+        {
+          "name": "capacity",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "名额上限，0表示不限"
+        },
+        {
+          "name": "registered_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "当前报名人数派生值"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'DRAFT'",
+          "note": "状态；DRAFT/PUBLISHED/CLOSED/CANCELLED",
+          "check": "`status` IN ('DRAFT', 'PUBLISHED', 'CLOSED', 'CANCELLED')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "publisher_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "reward_coupon_template_id"
+          ],
+          "table": "coupon_template",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "scope_type",
+            "cinema_id",
+            "status",
+            "starts_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "(scope_type = 'PLATFORM' AND cinema_id IS NULL) OR (scope_type = 'CINEMA' AND cinema_id IS NOT NULL)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "signup_ends_at > signup_starts_at AND ends_at > starts_at AND signup_ends_at <= starts_at"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "capacity >= 0 AND registered_count >= 0 AND (capacity = 0 OR registered_count <= capacity)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`scope_type` IN ('PLATFORM', 'CINEMA')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('DRAFT', 'PUBLISHED', 'CLOSED', 'CANCELLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "会员营销",
+      "name": "activity_participation",
+      "title": "活动参与记录",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "activity_id",
+          "type": "BIGINT NOT NULL",
+          "note": "活动"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "参与用户"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'REGISTERED'",
+          "note": "状态；REGISTERED/ATTENDED/CANCELLED",
+          "check": "`status` IN ('REGISTERED', 'ATTENDED', 'CANCELLED')"
+        },
+        {
+          "name": "reward_user_coupon_id",
+          "type": "BIGINT NULL",
+          "note": "已发放的奖励券"
+        },
+        {
+          "name": "attended_at",
+          "type": "DATETIME(3) NULL",
+          "note": "签到时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "activity_id",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "activity_id"
+          ],
+          "table": "marketing_activity",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "reward_user_coupon_id",
+            "user_id"
+          ],
+          "table": "user_coupon",
+          "targets": [
+            "id",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('REGISTERED', 'ATTENDED', 'CANCELLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "互动审核",
+      "name": "film_review",
+      "title": "购票影片评价",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "评价人"
+        },
+        {
+          "name": "film_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影片"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "购票影院"
+        },
+        {
+          "name": "order_item_id",
+          "type": "BIGINT NOT NULL",
+          "note": "已购票明细；一张票仅一条评价"
+        },
+        {
+          "name": "rating",
+          "type": "TINYINT NOT NULL DEFAULT 5",
+          "note": "评分1到5"
+        },
+        {
+          "name": "content",
+          "type": "TEXT NOT NULL",
+          "note": "评价正文"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PENDING'",
+          "note": "审核状态；PENDING/APPROVED/REJECTED/HIDDEN",
+          "check": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'HIDDEN')"
+        },
+        {
+          "name": "reviewer_id",
+          "type": "BIGINT NULL",
+          "note": "审核人员"
+        },
+        {
+          "name": "reviewed_at",
+          "type": "DATETIME(3) NULL",
+          "note": "审核时间"
+        },
+        {
+          "name": "review_remark",
+          "type": "VARCHAR(500) NULL",
+          "note": "审核说明"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "order_item_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "order_item_id",
+            "user_id",
+            "film_id",
+            "cinema_id"
+          ],
+          "table": "ticket_order_item",
+          "targets": [
+            "id",
+            "user_id",
+            "film_id",
+            "cinema_id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "reviewer_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "film_id",
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "rating BETWEEN 1 AND 5"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('PENDING', 'APPROVED', 'REJECTED', 'HIDDEN')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "互动审核",
+      "name": "review_reply",
+      "title": "评价商家回复",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "review_id",
+          "type": "BIGINT NOT NULL",
+          "note": "被回复评价"
+        },
+        {
+          "name": "operator_id",
+          "type": "BIGINT NOT NULL",
+          "note": "回复管理员"
+        },
+        {
+          "name": "content",
+          "type": "TEXT NOT NULL",
+          "note": "回复正文"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'VISIBLE'",
+          "note": "显示状态；VISIBLE/HIDDEN",
+          "check": "`status` IN ('VISIBLE', 'HIDDEN')"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "review_id"
+          ],
+          "table": "film_review",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "operator_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "review_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('VISIBLE', 'HIDDEN')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "互动审核",
+      "name": "user_feedback",
+      "title": "用户留言反馈",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "提交人"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NULL",
+          "note": "反馈影院；NULL为平台反馈"
+        },
+        {
+          "name": "feedback_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'SUGGESTION'",
+          "note": "类型；SUGGESTION/COMPLAINT/QUESTION/OTHER",
+          "check": "`feedback_type` IN ('SUGGESTION', 'COMPLAINT', 'QUESTION', 'OTHER')"
+        },
+        {
+          "name": "subject",
+          "type": "VARCHAR(160) NOT NULL",
+          "note": "主题"
+        },
+        {
+          "name": "content",
+          "type": "TEXT NOT NULL",
+          "note": "反馈内容"
+        },
+        {
+          "name": "attachment_keys",
+          "type": "JSON NULL",
+          "note": "附件存储键数组"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'OPEN'",
+          "note": "处理状态；OPEN/PROCESSING/RESOLVED/CLOSED",
+          "check": "`status` IN ('OPEN', 'PROCESSING', 'RESOLVED', 'CLOSED')"
+        },
+        {
+          "name": "assigned_to",
+          "type": "BIGINT NULL",
+          "note": "处理管理员"
+        },
+        {
+          "name": "resolved_at",
+          "type": "DATETIME(3) NULL",
+          "note": "解决时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "assigned_to"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "status",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "user_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`feedback_type` IN ('SUGGESTION', 'COMPLAINT', 'QUESTION', 'OTHER')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('OPEN', 'PROCESSING', 'RESOLVED', 'CLOSED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "互动审核",
+      "name": "feedback_reply",
+      "title": "反馈沟通记录",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "feedback_id",
+          "type": "BIGINT NOT NULL",
+          "note": "反馈单"
+        },
+        {
+          "name": "author_id",
+          "type": "BIGINT NOT NULL",
+          "note": "回复人"
+        },
+        {
+          "name": "author_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'USER'",
+          "note": "回复身份快照；USER/STAFF",
+          "check": "`author_type` IN ('USER', 'STAFF')"
+        },
+        {
+          "name": "content",
+          "type": "TEXT NOT NULL",
+          "note": "回复内容"
+        },
+        {
+          "name": "is_internal",
+          "type": "TINYINT NOT NULL DEFAULT 0",
+          "note": "内部备注，普通用户不可见"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "feedback_id"
+          ],
+          "table": "user_feedback",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "author_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "feedback_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "is_internal IN (0,1)"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`author_type` IN ('USER', 'STAFF')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "互动审核",
+      "name": "sensitive_word_rule",
+      "title": "敏感词规则",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "rule_name",
+          "type": "VARCHAR(100) NOT NULL",
+          "note": "规则名称"
+        },
+        {
+          "name": "pattern",
+          "type": "VARCHAR(255) NOT NULL",
+          "note": "词条或受限正则；应用层限制执行耗时"
+        },
+        {
+          "name": "match_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'LITERAL'",
+          "note": "匹配方式；LITERAL/REGEX",
+          "check": "`match_type` IN ('LITERAL', 'REGEX')"
+        },
+        {
+          "name": "action_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'REVIEW'",
+          "note": "处理动作；REVIEW/REJECT/MASK",
+          "check": "`action_type` IN ('REVIEW', 'REJECT', 'MASK')"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'ENABLED'",
+          "note": "状态；ENABLED/DISABLED",
+          "check": "`status` IN ('ENABLED', 'DISABLED')"
+        },
+        {
+          "name": "updated_by",
+          "type": "BIGINT NOT NULL",
+          "note": "维护人"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "updated_by"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "match_type"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`match_type` IN ('LITERAL', 'REGEX')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`action_type` IN ('REVIEW', 'REJECT', 'MASK')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('ENABLED', 'DISABLED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "互动审核",
+      "name": "moderation_log",
+      "title": "内容审核日志",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "target_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'REVIEW'",
+          "note": "对象类型；REVIEW/REVIEW_REPLY/FEEDBACK/ANNOUNCEMENT",
+          "check": "`target_type` IN ('REVIEW', 'REVIEW_REPLY', 'FEEDBACK', 'ANNOUNCEMENT')"
+        },
+        {
+          "name": "target_id",
+          "type": "BIGINT NOT NULL",
+          "note": "对象业务ID；多态引用由应用保证"
+        },
+        {
+          "name": "rule_id",
+          "type": "BIGINT NULL",
+          "note": "命中敏感词规则"
+        },
+        {
+          "name": "reviewer_id",
+          "type": "BIGINT NULL",
+          "note": "人工审核人；自动审核为NULL"
+        },
+        {
+          "name": "decision",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'APPROVE'",
+          "note": "决策；APPROVE/REJECT/MASK/HIDE/PENDING",
+          "check": "`decision` IN ('APPROVE', 'REJECT', 'MASK', 'HIDE', 'PENDING')"
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(500) NOT NULL",
+          "note": "审核理由；避免复制完整敏感原文"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "rule_id"
+          ],
+          "table": "sensitive_word_rule",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "reviewer_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "target_type",
+            "target_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`target_type` IN ('REVIEW', 'REVIEW_REPLY', 'FEEDBACK', 'ANNOUNCEMENT')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`decision` IN ('APPROVE', 'REJECT', 'MASK', 'HIDE', 'PENDING')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "统计审计",
+      "name": "sys_audit_log",
+      "title": "管理操作审计",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "operator_id",
+          "type": "BIGINT NULL",
+          "note": "操作者；系统任务为NULL"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NULL",
+          "note": "被操作数据的影院范围"
+        },
+        {
+          "name": "action_code",
+          "type": "VARCHAR(96) NOT NULL",
+          "note": "操作编码"
+        },
+        {
+          "name": "resource_type",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "资源类型"
+        },
+        {
+          "name": "resource_id",
+          "type": "VARCHAR(64) NULL",
+          "note": "资源标识"
+        },
+        {
+          "name": "request_id",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "请求追踪号"
+        },
+        {
+          "name": "client_ip",
+          "type": "VARCHAR(64) NULL",
+          "note": "来源IP；按环境进行脱敏"
+        },
+        {
+          "name": "result",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'SUCCESS'",
+          "note": "执行结果；SUCCESS/FAILURE",
+          "check": "`result` IN ('SUCCESS', 'FAILURE')"
+        },
+        {
+          "name": "sanitized_details",
+          "type": "JSON NULL",
+          "note": "脱敏变更摘要；排除密码、密钥、完整令牌"
+        },
+        {
+          "name": "duration_ms",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "耗时毫秒"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "operator_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "operator_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "request_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "duration_ms >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`result` IN ('SUCCESS', 'FAILURE')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "统计审计",
+      "name": "user_login_log",
+      "title": "登录安全日志",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NULL",
+          "note": "登录用户；未知账号为NULL"
+        },
+        {
+          "name": "account_hint",
+          "type": "VARCHAR(64) NULL",
+          "note": "脱敏账号摘要"
+        },
+        {
+          "name": "login_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PASSWORD'",
+          "note": "登录方式；PASSWORD/WECHAT/SMS",
+          "check": "`login_type` IN ('PASSWORD', 'WECHAT', 'SMS')"
+        },
+        {
+          "name": "client_ip",
+          "type": "VARCHAR(64) NULL",
+          "note": "来源IP"
+        },
+        {
+          "name": "user_agent",
+          "type": "VARCHAR(500) NULL",
+          "note": "客户端摘要"
+        },
+        {
+          "name": "result",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'SUCCESS'",
+          "note": "结果；SUCCESS/FAILURE/BLOCKED",
+          "check": "`result` IN ('SUCCESS', 'FAILURE', 'BLOCKED')"
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(255) NULL",
+          "note": "原因"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "user_id",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "client_ip",
+            "created_at"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`login_type` IN ('PASSWORD', 'WECHAT', 'SMS')"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`result` IN ('SUCCESS', 'FAILURE', 'BLOCKED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "统计审计",
+      "name": "user_activity_event",
+      "title": "活跃用户事件",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "event_no",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "客户端或服务端事件幂等编号"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "已登录用户"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NULL",
+          "note": "关联影院；平台页面为NULL"
+        },
+        {
+          "name": "event_type",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'LOGIN'",
+          "note": "事件类型；LOGIN/BROWSE/ORDER/PAY/REVIEW/ACTIVITY",
+          "check": "`event_type` IN ('LOGIN', 'BROWSE', 'ORDER', 'PAY', 'REVIEW', 'ACTIVITY')"
+        },
+        {
+          "name": "occurred_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "事件发生时间，服务端校正"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "event_no"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "occurred_at",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "cinema_id",
+            "occurred_at",
+            "user_id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`event_type` IN ('LOGIN', 'BROWSE', 'ORDER', 'PAY', 'REVIEW', 'ACTIVITY')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "统计审计",
+      "name": "stat_cinema_daily",
+      "title": "影院每日汇总",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "cinema_id",
+          "type": "BIGINT NOT NULL",
+          "note": "影院"
+        },
+        {
+          "name": "stat_date",
+          "type": "DATE NOT NULL",
+          "note": "北京时间自然日"
+        },
+        {
+          "name": "gross_sales",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "当日订单认领的成功支付额"
+        },
+        {
+          "name": "refund_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "当日对已认领款的成功退款额"
+        },
+        {
+          "name": "sold_ticket_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "当日成功出票张数"
+        },
+        {
+          "name": "refunded_ticket_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "当日退票张数"
+        },
+        {
+          "name": "scheduled_seat_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "当日有效开场场次座位总量"
+        },
+        {
+          "name": "occupied_seat_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "上述场次当前已售座位总量"
+        },
+        {
+          "name": "active_user_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "本院当日去重活跃用户数"
+        },
+        {
+          "name": "calculated_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "汇总计算时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "cinema_id",
+            "stat_date"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "cinema_id"
+          ],
+          "table": "cinema",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "gross_sales >= 0 AND refund_amount >= 0 AND sold_ticket_count >= 0 AND refunded_ticket_count >= 0 AND scheduled_seat_count >= 0 AND occupied_seat_count BETWEEN 0 AND scheduled_seat_count AND active_user_count >= 0"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "统计审计",
+      "name": "stat_platform_daily",
+      "title": "平台每日汇总",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "stat_date",
+          "type": "DATE NOT NULL",
+          "note": "北京时间自然日"
+        },
+        {
+          "name": "gross_sales",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "当日认领支付总额"
+        },
+        {
+          "name": "refund_amount",
+          "type": "DECIMAL(10,2) NOT NULL DEFAULT 0.00",
+          "note": "当日成功退还的认领款"
+        },
+        {
+          "name": "paid_order_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "成功支付订单数"
+        },
+        {
+          "name": "active_user_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "全平台按用户去重；禁止直接相加影院DAU"
+        },
+        {
+          "name": "new_user_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "新增普通用户数"
+        },
+        {
+          "name": "active_cinema_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "营业影院数"
+        },
+        {
+          "name": "calculated_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "汇总计算时间"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "stat_date"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "gross_sales >= 0 AND refund_amount >= 0 AND paid_order_count >= 0 AND active_user_count >= 0 AND new_user_count >= 0 AND active_cinema_count >= 0"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "统计审计",
+      "name": "outbox_event",
+      "title": "事务消息发件箱",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "event_no",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "全局事件编号"
+        },
+        {
+          "name": "aggregate_type",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "聚合类型"
+        },
+        {
+          "name": "aggregate_id",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "聚合标识；多态引用"
+        },
+        {
+          "name": "event_type",
+          "type": "VARCHAR(96) NOT NULL",
+          "note": "事件类型"
+        },
+        {
+          "name": "payload",
+          "type": "JSON NOT NULL",
+          "note": "不含凭证的事件数据"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'NEW'",
+          "note": "投递状态；NEW/PROCESSING/SENT/FAILED",
+          "check": "`status` IN ('NEW', 'PROCESSING', 'SENT', 'FAILED')"
+        },
+        {
+          "name": "retry_count",
+          "type": "INT NOT NULL DEFAULT 0",
+          "note": "重试次数"
+        },
+        {
+          "name": "next_retry_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "下次重试时间"
+        },
+        {
+          "name": "locked_until",
+          "type": "DATETIME(3) NULL",
+          "note": "消费者租约到期"
+        },
+        {
+          "name": "locked_by",
+          "type": "VARCHAR(64) NULL",
+          "note": "消费者实例标识"
+        },
+        {
+          "name": "last_error",
+          "type": "VARCHAR(500) NULL",
+          "note": "错误摘要"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "event_no"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "next_retry_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "locked_until"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "retry_count >= 0"
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('NEW', 'PROCESSING', 'SENT', 'FAILED')"
+        }
+      ],
+      "purpose": ""
+    },
+    {
+      "group": "统计审计",
+      "name": "idempotency_record",
+      "title": "业务请求幂等记录",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT NOT NULL AUTO_INCREMENT",
+          "note": "主键；应用使用 Java Long，接口以字符串返回"
+        },
+        {
+          "name": "user_id",
+          "type": "BIGINT NOT NULL",
+          "note": "请求发起人"
+        },
+        {
+          "name": "operation_code",
+          "type": "VARCHAR(64) NOT NULL",
+          "note": "操作类型"
+        },
+        {
+          "name": "key_hash",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NOT NULL",
+          "note": "客户端幂等键摘要"
+        },
+        {
+          "name": "request_hash",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NOT NULL",
+          "note": "请求内容摘要；同键异参必须拒绝"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(24) NOT NULL DEFAULT 'PROCESSING'",
+          "note": "状态；PROCESSING/SUCCEEDED/FAILED",
+          "check": "`status` IN ('PROCESSING', 'SUCCEEDED', 'FAILED')"
+        },
+        {
+          "name": "resource_type",
+          "type": "VARCHAR(64) NULL",
+          "note": "结果资源类型"
+        },
+        {
+          "name": "resource_id",
+          "type": "VARCHAR(64) NULL",
+          "note": "结果业务编号"
+        },
+        {
+          "name": "expires_at",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "幂等窗口结束"
+        },
+        {
+          "name": "processing_until",
+          "type": "DATETIME(3) NOT NULL",
+          "note": "执行租约到期时间"
+        },
+        {
+          "name": "owner_token",
+          "type": "VARCHAR(64) COLLATE utf8mb4_bin NOT NULL",
+          "note": "执行者租约令牌"
+        },
+        {
+          "name": "created_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)",
+          "note": "创建时间；统一使用北京时间"
+        },
+        {
+          "name": "updated_at",
+          "type": "DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+          "note": "最近更新时间"
+        }
+      ],
+      "constraints": [
+        {
+          "kind": "PRIMARY KEY",
+          "cols": [
+            "id"
+          ]
+        },
+        {
+          "kind": "UNIQUE KEY",
+          "cols": [
+            "user_id",
+            "operation_code",
+            "key_hash"
+          ]
+        },
+        {
+          "kind": "FOREIGN KEY",
+          "cols": [
+            "user_id"
+          ],
+          "table": "sys_user",
+          "targets": [
+            "id"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "expires_at"
+          ]
+        },
+        {
+          "kind": "KEY",
+          "cols": [
+            "status",
+            "processing_until"
+          ]
+        },
+        {
+          "kind": "CHECK",
+          "expr": "`status` IN ('PROCESSING', 'SUCCEEDED', 'FAILED')"
+        }
+      ],
+      "purpose": ""
+    }
+  ],
+  "deferred": [
+    {
+      "table": "screening_seat",
+      "constraint": {
+        "kind": "FOREIGN KEY",
+        "cols": [
+          "sold_order_item_id",
+          "id"
+        ],
+        "table": "ticket_order_item",
+        "targets": [
+          "id",
+          "screening_seat_id"
+        ]
+      }
+    },
+    {
+      "table": "ticket_order",
+      "constraint": {
+        "kind": "FOREIGN KEY",
+        "cols": [
+          "settled_payment_id",
+          "id"
+        ],
+        "table": "payment_transaction",
+        "targets": [
+          "id",
+          "order_id"
+        ]
+      }
+    }
+  ]
+}
