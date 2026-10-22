@@ -4,6 +4,7 @@
 
 ## 文件位置
 
+- .gitignore、.env.example、docs/密钥与环境配置.md：私密文件忽略规则、空配置参考和地图API凭证使用约定。
 - database/01_schema.sql：完整MySQL建表脚本，包含主外键、唯一索引、CHECK约束和循环关联的后置外键。
 - database/02_seed.sql：攀枝花项目内区域字典、角色权限、影片分类和会员等级；无默认弱口令账号。
 - database/03_demo.sql：可选虚构影院、影片、场次和一笔沙箱已支付订单；演示账号不可登录。

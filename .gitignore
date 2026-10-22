@@ -1,9 +1,40 @@
-# Secrets and local configuration
+# Real environment files at any directory depth; commit blank examples only.
 .env
 .env.*
 !.env.example
-application-local.yml
-application-local.yaml
+.envrc
+.envrc.*
+
+# Local Spring Boot and application configuration.
+application-local.*
+application-private.*
+application-secrets.*
+config.local.*
+settings.local.*
+*-secrets.*
+*.secrets.*
+
+# Credentials, private keys and private configuration directories.
+.secrets/
+secrets/
+credentials/
+private-config/
+.ssh/
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.ppk
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+service-account*.json
+*-service-account.json
+*-credentials.json
+
 # Build outputs
 node_modules/
 dist/
