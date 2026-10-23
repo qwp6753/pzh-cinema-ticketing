@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-23",
+  "jdk": "Microsoft OpenJDK 21.0.11",
+  "database": "pzh_cinema",
+  "port": 18080,
+  "checks": [
+    {
+      "name": "mysql_redis_health",
+      "path": "/actuator/health",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "film_page_1",
+      "path": "/api/v1/films?page=1&pageSize=1",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "film_page_2",
+      "path": "/api/v1/films?page=2&pageSize=1",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "page_out_of_range",
+      "path": "/api/v1/films?page=1000000&pageSize=100",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "validation_range",
+      "path": "/api/v1/films?pageSize=101",
+      "status": 400,
+      "result": "PASS"
+    },
+    {
+      "name": "validation_type",
+      "path": "/api/v1/films?page=abc",
+      "status": 400,
+      "result": "PASS"
+    },
+    {
+      "name": "validation_indexed_page",
+      "path": "/api/v1/films?page%5B0%5D=1",
+      "status": 400,
+      "result": "PASS"
+    },
+    {
+      "name": "validation_indexed_page_size",
+      "path": "/api/v1/films?pageSize%5B0%5D=1",
+      "status": 400,
+      "result": "PASS"
+    },
+    {
+      "name": "security_default_deny",
+      "path": "/api/v1/admin/users",
+      "status": 401,
+      "result": "PASS"
+    },
+    {
+      "name": "security_film_write",
+      "path": "/api/v1/films",
+      "status": 401,
+      "result": "PASS"
+    },
+    {
+      "name": "request_id",
+      "path": "/api/v1/films",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "openapi_json",
+      "path": "/v3/api-docs",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "swagger_redirect",
+      "path": "/swagger-ui.html",
+      "status": 302,
+      "result": "PASS"
+    },
+    {
+      "name": "swagger_html",
+      "path": "/swagger-ui/index.html",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "swagger_javascript",
+      "path": "/swagger-ui/swagger-ui-bundle.js",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "cors_allowed",
+      "path": "/api/v1/films",
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "name": "cors_rejected",
+      "path": "/api/v1/films",
+      "status": 403,
+      "result": "PASS"
+    }
+  ],
+  "sample": {
+    "page1": {
+      "records": [
+        {
+          "id": "2",
+          "filmName": "山城奇遇（虚构演示影片）",
+          "posterUrl": null,
+          "director": "演示导演",
+          "country": null,
+          "language": null,
+          "durationMinutes": 100,
+          "releaseDate": null,
+          "releaseStatus": "COMING",
+          "heatScore": 60
+        }
+      ],
+      "total": 2,
+      "page": 1,
+      "pageSize": 1,
+      "pages": 2
+    },
+    "page2": {
+      "records": [
+        {
+          "id": "1",
+          "filmName": "攀枝花之光（虚构演示影片）",
+          "posterUrl": null,
+          "director": "演示导演",
+          "country": null,
+          "language": null,
+          "durationMinutes": 120,
+          "releaseDate": null,
+          "releaseStatus": "SHOWING",
+          "heatScore": 100
+        }
+      ],
+      "total": 2,
+      "page": 2,
+      "pageSize": 1,
+      "pages": 2
+    }
+  },
+  "redisVersion": "5.0.14.1",
+  "result": "PASS"
+}
