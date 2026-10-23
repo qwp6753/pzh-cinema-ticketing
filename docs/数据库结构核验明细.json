@@ -1,0 +1,5115 @@
+{
+  "date": "2026-10-23",
+  "database": "pzh_cinema",
+  "checks": [
+    {
+      "name": "table_names",
+      "status": "PASS",
+      "evidence": {
+        "expected": 55,
+        "actual": 55,
+        "missing": [],
+        "unexpected": []
+      }
+    },
+    {
+      "name": "view_names",
+      "status": "PASS",
+      "evidence": {
+        "expected": 4,
+        "actual": 4
+      }
+    },
+    {
+      "name": "storage_engine_charset",
+      "status": "PASS",
+      "evidence": {
+        "tables": 55
+      }
+    },
+    {
+      "name": "unique_index_count",
+      "status": "PASS",
+      "evidence": {
+        "expected": 84,
+        "actual": 84
+      }
+    },
+    {
+      "name": "foreign_key_count",
+      "status": "PASS",
+      "evidence": {
+        "expected": 99,
+        "actual": 99
+      }
+    },
+    {
+      "name": "foreign_key_types",
+      "status": "PASS",
+      "evidence": {
+        "columnPairs": 162,
+        "mismatches": 0
+      }
+    },
+    {
+      "name": "all_table_definitions",
+      "status": "PASS",
+      "evidence": {
+        "checkedColumns": 645,
+        "tables": 55,
+        "userAndCinemaIdFields": 46
+      }
+    },
+    {
+      "name": "baseline_seed_data",
+      "status": "PASS",
+      "evidence": {
+        "regions": 6,
+        "roles": 4,
+        "permissions": 41,
+        "rolePermissions": 42,
+        "filmCategories": 8,
+        "memberLevels": 3
+      }
+    },
+    {
+      "name": "development_catalog_data",
+      "status": "PASS",
+      "evidence": {
+        "users": 4,
+        "films": 2,
+        "cinemas": 2,
+        "halls": 2,
+        "physicalSeats": 16,
+        "screenings": 3,
+        "screeningInventory": 26,
+        "mockOrders": 1
+      }
+    },
+    {
+      "name": "foreign_key_existing_rows",
+      "status": "PASS",
+      "evidence": {
+        "relationshipsChecked": 99,
+        "orphanRows": 0
+      }
+    },
+    {
+      "name": "unique_index_existing_rows",
+      "status": "PASS",
+      "evidence": {
+        "indexesChecked": 84,
+        "duplicateGroups": 0
+      }
+    }
+  ],
+  "discrepancies": [],
+  "tables": [
+    {
+      "table": "sys_region",
+      "title": "区域字典",
+      "columns": 9,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "sys_user",
+      "title": "统一用户账号",
+      "columns": 14,
+      "primaryType": "bigint",
+      "uniqueIndexes": 4,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "sys_role",
+      "title": "角色",
+      "columns": 7,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "sys_permission",
+      "title": "权限与菜单",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "sys_role_permission",
+      "title": "角色权限关联",
+      "columns": 5,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema",
+      "title": "影院基本资料",
+      "columns": 17,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "sys_user_role",
+      "title": "用户角色授权",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 4,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_application",
+      "title": "影院入驻资质审核记录",
+      "columns": 12,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 3,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_admin_application",
+      "title": "影院管理员账号申请",
+      "columns": 15,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 4,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_hall",
+      "title": "影厅",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_seat",
+      "title": "影厅物理座位",
+      "columns": 12,
+      "primaryType": "bigint",
+      "uniqueIndexes": 3,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "film_category",
+      "title": "影片分类",
+      "columns": 6,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "film",
+      "title": "全局影片库",
+      "columns": 17,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "film_category_rel",
+      "title": "影片分类关联",
+      "columns": 5,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_film",
+      "title": "影院片库",
+      "columns": 7,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "member_level",
+      "title": "平台会员等级",
+      "columns": 9,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_pricing_rule",
+      "title": "影院票价策略",
+      "columns": 17,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 3,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_screening",
+      "title": "放映场次",
+      "columns": 18,
+      "primaryType": "bigint",
+      "uniqueIndexes": 3,
+      "foreignKeys": 3,
+      "status": "PASS"
+    },
+    {
+      "table": "seat_hold",
+      "title": "临时锁座批次",
+      "columns": 11,
+      "primaryType": "bigint",
+      "uniqueIndexes": 4,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "screening_seat",
+      "title": "场次座位库存",
+      "columns": 16,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 4,
+      "status": "PASS"
+    },
+    {
+      "table": "seat_hold_item",
+      "title": "锁座批次明细",
+      "columns": 9,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "ticket_order",
+      "title": "购票订单",
+      "columns": 28,
+      "primaryType": "bigint",
+      "uniqueIndexes": 6,
+      "foreignKeys": 3,
+      "status": "PASS"
+    },
+    {
+      "table": "ticket_order_item",
+      "title": "订单座位明细",
+      "columns": 17,
+      "primaryType": "bigint",
+      "uniqueIndexes": 6,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "payment_transaction",
+      "title": "支付尝试与渠道流水",
+      "columns": 12,
+      "primaryType": "bigint",
+      "uniqueIndexes": 5,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "payment_callback_event",
+      "title": "支付退款回调收件箱",
+      "columns": 13,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "ticket",
+      "title": "电子票",
+      "columns": 11,
+      "primaryType": "bigint",
+      "uniqueIndexes": 3,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "ticket_qr_token",
+      "title": "动态验票凭证",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "ticket_verification_log",
+      "title": "验票核销日志",
+      "columns": 11,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 4,
+      "status": "PASS"
+    },
+    {
+      "table": "after_sale_request",
+      "title": "退票改签申请",
+      "columns": 19,
+      "primaryType": "bigint",
+      "uniqueIndexes": 5,
+      "foreignKeys": 4,
+      "status": "PASS"
+    },
+    {
+      "table": "after_sale_item",
+      "title": "退改座位明细",
+      "columns": 13,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 4,
+      "status": "PASS"
+    },
+    {
+      "table": "payment_refund",
+      "title": "退款渠道流水",
+      "columns": 15,
+      "primaryType": "bigint",
+      "uniqueIndexes": 3,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "order_status_history",
+      "title": "订单状态流转日志",
+      "columns": 9,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "user_favorite_film",
+      "title": "影片收藏",
+      "columns": 5,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "member_account",
+      "title": "平台会员账户",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "member_points_ledger",
+      "title": "积分收支流水",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "cinema_member",
+      "title": "本院会员关系",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "coupon_template",
+      "title": "优惠券模板",
+      "columns": 19,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "user_coupon",
+      "title": "用户领券记录",
+      "columns": 9,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "coupon_usage",
+      "title": "优惠券订单占用流水",
+      "columns": 11,
+      "primaryType": "bigint",
+      "uniqueIndexes": 2,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "announcement",
+      "title": "平台及影院公告",
+      "columns": 13,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "marketing_activity",
+      "title": "平台及门店活动",
+      "columns": 16,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 3,
+      "status": "PASS"
+    },
+    {
+      "table": "activity_participation",
+      "title": "活动参与记录",
+      "columns": 8,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 3,
+      "status": "PASS"
+    },
+    {
+      "table": "film_review",
+      "title": "购票影片评价",
+      "columns": 13,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "review_reply",
+      "title": "评价商家回复",
+      "columns": 7,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "user_feedback",
+      "title": "用户留言反馈",
+      "columns": 12,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 3,
+      "status": "PASS"
+    },
+    {
+      "table": "feedback_reply",
+      "title": "反馈沟通记录",
+      "columns": 8,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "sensitive_word_rule",
+      "title": "敏感词规则",
+      "columns": 9,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "moderation_log",
+      "title": "内容审核日志",
+      "columns": 9,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "sys_audit_log",
+      "title": "管理操作审计",
+      "columns": 13,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "user_login_log",
+      "title": "登录安全日志",
+      "columns": 10,
+      "primaryType": "bigint",
+      "uniqueIndexes": 0,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "user_activity_event",
+      "title": "活跃用户事件",
+      "columns": 8,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 2,
+      "status": "PASS"
+    },
+    {
+      "table": "stat_cinema_daily",
+      "title": "影院每日汇总",
+      "columns": 13,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 1,
+      "status": "PASS"
+    },
+    {
+      "table": "stat_platform_daily",
+      "title": "平台每日汇总",
+      "columns": 11,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "outbox_event",
+      "title": "事务消息发件箱",
+      "columns": 14,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 0,
+      "status": "PASS"
+    },
+    {
+      "table": "idempotency_record",
+      "title": "业务请求幂等记录",
+      "columns": 13,
+      "primaryType": "bigint",
+      "uniqueIndexes": 1,
+      "foreignKeys": 1,
+      "status": "PASS"
+    }
+  ],
+  "uniqueIndexes": [
+    {
+      "table": "sys_region",
+      "name": "sys_region_uk_1",
+      "columns": [
+        "region_code"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_user",
+      "name": "sys_user_uk_1",
+      "columns": [
+        "username"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_user",
+      "name": "sys_user_uk_2",
+      "columns": [
+        "phone"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_user",
+      "name": "sys_user_uk_3",
+      "columns": [
+        "wechat_app_id",
+        "wechat_openid"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_user",
+      "name": "sys_user_uk_4",
+      "columns": [
+        "wechat_unionid"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_role",
+      "name": "sys_role_uk_1",
+      "columns": [
+        "role_code"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_role",
+      "name": "sys_role_uk_2",
+      "columns": [
+        "id",
+        "scope_type"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_permission",
+      "name": "sys_permission_uk_1",
+      "columns": [
+        "permission_code"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_role_permission",
+      "name": "sys_role_permission_uk_1",
+      "columns": [
+        "role_id",
+        "permission_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema",
+      "name": "cinema_uk_1",
+      "columns": [
+        "cinema_code"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "sys_user_role",
+      "name": "sys_user_role_uk_1",
+      "columns": [
+        "user_id",
+        "role_id",
+        "scope_key"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_admin_application",
+      "name": "cinema_admin_application_uk_1",
+      "columns": [
+        "pending_user_id",
+        "cinema_id",
+        "role_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_hall",
+      "name": "cinema_hall_uk_1",
+      "columns": [
+        "cinema_id",
+        "hall_name"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_hall",
+      "name": "cinema_hall_uk_2",
+      "columns": [
+        "id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_seat",
+      "name": "cinema_seat_uk_1",
+      "columns": [
+        "hall_id",
+        "row_no",
+        "column_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_seat",
+      "name": "cinema_seat_uk_2",
+      "columns": [
+        "hall_id",
+        "seat_label"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_seat",
+      "name": "cinema_seat_uk_3",
+      "columns": [
+        "id",
+        "cinema_id",
+        "hall_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "film_category",
+      "name": "film_category_uk_1",
+      "columns": [
+        "category_name"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "film_category_rel",
+      "name": "film_category_rel_uk_1",
+      "columns": [
+        "film_id",
+        "category_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_film",
+      "name": "cinema_film_uk_1",
+      "columns": [
+        "cinema_id",
+        "film_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "member_level",
+      "name": "member_level_uk_1",
+      "columns": [
+        "level_code"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "member_level",
+      "name": "member_level_uk_2",
+      "columns": [
+        "required_growth"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_pricing_rule",
+      "name": "cinema_pricing_rule_uk_1",
+      "columns": [
+        "id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_screening",
+      "name": "cinema_screening_uk_1",
+      "columns": [
+        "id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_screening",
+      "name": "cinema_screening_uk_2",
+      "columns": [
+        "id",
+        "cinema_id",
+        "hall_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_screening",
+      "name": "cinema_screening_uk_3",
+      "columns": [
+        "id",
+        "cinema_id",
+        "film_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "seat_hold",
+      "name": "seat_hold_uk_1",
+      "columns": [
+        "hold_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "seat_hold",
+      "name": "seat_hold_uk_2",
+      "columns": [
+        "token_hash"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "seat_hold",
+      "name": "seat_hold_uk_3",
+      "columns": [
+        "id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "seat_hold",
+      "name": "seat_hold_uk_4",
+      "columns": [
+        "id",
+        "user_id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "screening_seat",
+      "name": "screening_seat_uk_1",
+      "columns": [
+        "screening_id",
+        "seat_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "screening_seat",
+      "name": "screening_seat_uk_2",
+      "columns": [
+        "id",
+        "screening_id",
+        "cinema_id",
+        "seat_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "seat_hold_item",
+      "name": "seat_hold_item_uk_1",
+      "columns": [
+        "hold_id",
+        "screening_seat_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order",
+      "name": "ticket_order_uk_1",
+      "columns": [
+        "order_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order",
+      "name": "ticket_order_uk_2",
+      "columns": [
+        "hold_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order",
+      "name": "ticket_order_uk_3",
+      "columns": [
+        "settled_payment_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order",
+      "name": "ticket_order_uk_4",
+      "columns": [
+        "id",
+        "user_id",
+        "cinema_id",
+        "screening_id",
+        "film_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order",
+      "name": "ticket_order_uk_5",
+      "columns": [
+        "id",
+        "user_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order",
+      "name": "ticket_order_uk_6",
+      "columns": [
+        "id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order_item",
+      "name": "ticket_order_item_uk_1",
+      "columns": [
+        "order_id",
+        "screening_seat_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order_item",
+      "name": "ticket_order_item_uk_2",
+      "columns": [
+        "active_screening_seat_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order_item",
+      "name": "ticket_order_item_uk_3",
+      "columns": [
+        "id",
+        "screening_seat_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order_item",
+      "name": "ticket_order_item_uk_4",
+      "columns": [
+        "id",
+        "order_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order_item",
+      "name": "ticket_order_item_uk_5",
+      "columns": [
+        "id",
+        "user_id",
+        "film_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_order_item",
+      "name": "ticket_order_item_uk_6",
+      "columns": [
+        "id",
+        "user_id",
+        "cinema_id",
+        "screening_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_transaction",
+      "name": "payment_transaction_uk_1",
+      "columns": [
+        "payment_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_transaction",
+      "name": "payment_transaction_uk_2",
+      "columns": [
+        "provider",
+        "provider_trade_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_transaction",
+      "name": "payment_transaction_uk_3",
+      "columns": [
+        "idempotency_key"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_transaction",
+      "name": "payment_transaction_uk_4",
+      "columns": [
+        "id",
+        "order_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_transaction",
+      "name": "payment_transaction_uk_5",
+      "columns": [
+        "id",
+        "order_id",
+        "provider"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_callback_event",
+      "name": "payment_callback_event_uk_1",
+      "columns": [
+        "provider",
+        "provider_event_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket",
+      "name": "ticket_uk_1",
+      "columns": [
+        "ticket_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket",
+      "name": "ticket_uk_2",
+      "columns": [
+        "order_item_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket",
+      "name": "ticket_uk_3",
+      "columns": [
+        "id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_qr_token",
+      "name": "ticket_qr_token_uk_1",
+      "columns": [
+        "nonce_hash"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_qr_token",
+      "name": "ticket_qr_token_uk_2",
+      "columns": [
+        "id",
+        "ticket_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "ticket_verification_log",
+      "name": "ticket_verification_log_uk_1",
+      "columns": [
+        "success_ticket_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "after_sale_request",
+      "name": "after_sale_request_uk_1",
+      "columns": [
+        "request_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "after_sale_request",
+      "name": "after_sale_request_uk_2",
+      "columns": [
+        "new_order_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "after_sale_request",
+      "name": "after_sale_request_uk_3",
+      "columns": [
+        "id",
+        "original_order_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "after_sale_request",
+      "name": "after_sale_request_uk_4",
+      "columns": [
+        "id",
+        "new_order_id",
+        "cinema_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "after_sale_request",
+      "name": "after_sale_request_uk_15",
+      "columns": [
+        "id",
+        "original_order_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "after_sale_item",
+      "name": "after_sale_item_uk_1",
+      "columns": [
+        "request_id",
+        "original_order_item_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "after_sale_item",
+      "name": "after_sale_item_uk_2",
+      "columns": [
+        "active_order_item_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_refund",
+      "name": "payment_refund_uk_1",
+      "columns": [
+        "refund_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_refund",
+      "name": "payment_refund_uk_2",
+      "columns": [
+        "provider",
+        "provider_refund_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "payment_refund",
+      "name": "payment_refund_uk_3",
+      "columns": [
+        "idempotency_key"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "user_favorite_film",
+      "name": "user_favorite_film_uk_1",
+      "columns": [
+        "user_id",
+        "film_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "member_account",
+      "name": "member_account_uk_1",
+      "columns": [
+        "user_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "member_account",
+      "name": "member_account_uk_2",
+      "columns": [
+        "member_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "member_points_ledger",
+      "name": "member_points_ledger_uk_1",
+      "columns": [
+        "idempotency_key"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_member",
+      "name": "cinema_member_uk_1",
+      "columns": [
+        "cinema_id",
+        "user_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "cinema_member",
+      "name": "cinema_member_uk_2",
+      "columns": [
+        "cinema_id",
+        "member_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "user_coupon",
+      "name": "user_coupon_uk_1",
+      "columns": [
+        "coupon_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "user_coupon",
+      "name": "user_coupon_uk_2",
+      "columns": [
+        "id",
+        "user_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "coupon_usage",
+      "name": "coupon_usage_uk_1",
+      "columns": [
+        "order_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "coupon_usage",
+      "name": "coupon_usage_uk_2",
+      "columns": [
+        "active_coupon_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "activity_participation",
+      "name": "activity_participation_uk_1",
+      "columns": [
+        "activity_id",
+        "user_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "film_review",
+      "name": "film_review_uk_1",
+      "columns": [
+        "order_item_id"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "user_activity_event",
+      "name": "user_activity_event_uk_1",
+      "columns": [
+        "event_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "stat_cinema_daily",
+      "name": "stat_cinema_daily_uk_1",
+      "columns": [
+        "cinema_id",
+        "stat_date"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "stat_platform_daily",
+      "name": "stat_platform_daily_uk_1",
+      "columns": [
+        "stat_date"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "outbox_event",
+      "name": "outbox_event_uk_1",
+      "columns": [
+        "event_no"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    },
+    {
+      "table": "idempotency_record",
+      "name": "idempotency_record_uk_1",
+      "columns": [
+        "user_id",
+        "operation_code",
+        "key_hash"
+      ],
+      "verified": true,
+      "duplicateGroups": 0
+    }
+  ],
+  "foreignKeys": [
+    {
+      "source": "sys_region",
+      "name": "sys_region_fk_2",
+      "columns": [
+        "parent_id"
+      ],
+      "parent": "sys_region",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "parent_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_permission",
+      "name": "sys_permission_fk_2",
+      "columns": [
+        "parent_id"
+      ],
+      "parent": "sys_permission",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "parent_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_role_permission",
+      "name": "sys_role_permission_fk_2",
+      "columns": [
+        "role_id"
+      ],
+      "parent": "sys_role",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "role_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_role_permission",
+      "name": "sys_role_permission_fk_3",
+      "columns": [
+        "permission_id"
+      ],
+      "parent": "sys_permission",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "permission_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema",
+      "name": "cinema_fk_2",
+      "columns": [
+        "region_id"
+      ],
+      "parent": "sys_region",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "region_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_user_role",
+      "name": "sys_user_role_fk_2",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_user_role",
+      "name": "sys_user_role_fk_3",
+      "columns": [
+        "role_id",
+        "scope_type"
+      ],
+      "parent": "sys_role",
+      "targets": [
+        "id",
+        "scope_type"
+      ],
+      "pairs": [
+        {
+          "column": "role_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "scope_type",
+          "childType": "varchar(24)",
+          "parentColumn": "scope_type",
+          "parentType": "varchar(24)",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_user_role",
+      "name": "sys_user_role_fk_4",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_user_role",
+      "name": "sys_user_role_fk_5",
+      "columns": [
+        "granted_by"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "granted_by",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_application",
+      "name": "cinema_application_fk_1",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_application",
+      "name": "cinema_application_fk_2",
+      "columns": [
+        "applicant_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "applicant_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_application",
+      "name": "cinema_application_fk_3",
+      "columns": [
+        "reviewer_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "reviewer_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_admin_application",
+      "name": "cinema_admin_application_fk_2",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_admin_application",
+      "name": "cinema_admin_application_fk_3",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_admin_application",
+      "name": "cinema_admin_application_fk_4",
+      "columns": [
+        "role_id",
+        "role_scope"
+      ],
+      "parent": "sys_role",
+      "targets": [
+        "id",
+        "scope_type"
+      ],
+      "pairs": [
+        {
+          "column": "role_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "role_scope",
+          "childType": "varchar(24)",
+          "parentColumn": "scope_type",
+          "parentType": "varchar(24)",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_admin_application",
+      "name": "cinema_admin_application_fk_5",
+      "columns": [
+        "reviewer_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "reviewer_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_hall",
+      "name": "cinema_hall_fk_3",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_seat",
+      "name": "cinema_seat_fk_4",
+      "columns": [
+        "hall_id",
+        "cinema_id"
+      ],
+      "parent": "cinema_hall",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "hall_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "film_category_rel",
+      "name": "film_category_rel_fk_2",
+      "columns": [
+        "film_id"
+      ],
+      "parent": "film",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "film_category_rel",
+      "name": "film_category_rel_fk_3",
+      "columns": [
+        "category_id"
+      ],
+      "parent": "film_category",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "category_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_film",
+      "name": "cinema_film_fk_2",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_film",
+      "name": "cinema_film_fk_3",
+      "columns": [
+        "film_id"
+      ],
+      "parent": "film",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_pricing_rule",
+      "name": "cinema_pricing_rule_fk_2",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_pricing_rule",
+      "name": "cinema_pricing_rule_fk_3",
+      "columns": [
+        "hall_id",
+        "cinema_id"
+      ],
+      "parent": "cinema_hall",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "hall_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_pricing_rule",
+      "name": "cinema_pricing_rule_fk_4",
+      "columns": [
+        "film_id"
+      ],
+      "parent": "film",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_screening",
+      "name": "cinema_screening_fk_4",
+      "columns": [
+        "hall_id",
+        "cinema_id"
+      ],
+      "parent": "cinema_hall",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "hall_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_screening",
+      "name": "cinema_screening_fk_5",
+      "columns": [
+        "cinema_id",
+        "film_id"
+      ],
+      "parent": "cinema_film",
+      "targets": [
+        "cinema_id",
+        "film_id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "film_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_screening",
+      "name": "cinema_screening_fk_6",
+      "columns": [
+        "pricing_rule_id",
+        "cinema_id"
+      ],
+      "parent": "cinema_pricing_rule",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "pricing_rule_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "seat_hold",
+      "name": "seat_hold_fk_5",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "seat_hold",
+      "name": "seat_hold_fk_6",
+      "columns": [
+        "screening_id",
+        "cinema_id"
+      ],
+      "parent": "cinema_screening",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "screening_seat",
+      "name": "screening_seat_fk_3",
+      "columns": [
+        "screening_id",
+        "cinema_id",
+        "hall_id"
+      ],
+      "parent": "cinema_screening",
+      "targets": [
+        "id",
+        "cinema_id",
+        "hall_id"
+      ],
+      "pairs": [
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "hall_id",
+          "childType": "bigint",
+          "parentColumn": "hall_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "screening_seat",
+      "name": "screening_seat_fk_4",
+      "columns": [
+        "seat_id",
+        "cinema_id",
+        "hall_id"
+      ],
+      "parent": "cinema_seat",
+      "targets": [
+        "id",
+        "cinema_id",
+        "hall_id"
+      ],
+      "pairs": [
+        {
+          "column": "seat_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "hall_id",
+          "childType": "bigint",
+          "parentColumn": "hall_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "screening_seat",
+      "name": "screening_seat_fk_5",
+      "columns": [
+        "active_hold_id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "parent": "seat_hold",
+      "targets": [
+        "id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "active_hold_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "screening_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "seat_hold_item",
+      "name": "seat_hold_item_fk_2",
+      "columns": [
+        "hold_id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "parent": "seat_hold",
+      "targets": [
+        "id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "hold_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "screening_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "seat_hold_item",
+      "name": "seat_hold_item_fk_3",
+      "columns": [
+        "screening_seat_id",
+        "screening_id",
+        "cinema_id",
+        "seat_id"
+      ],
+      "parent": "screening_seat",
+      "targets": [
+        "id",
+        "screening_id",
+        "cinema_id",
+        "seat_id"
+      ],
+      "pairs": [
+        {
+          "column": "screening_seat_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "screening_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "seat_id",
+          "childType": "bigint",
+          "parentColumn": "seat_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_order",
+      "name": "ticket_order_fk_7",
+      "columns": [
+        "hold_id",
+        "user_id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "parent": "seat_hold",
+      "targets": [
+        "id",
+        "user_id",
+        "screening_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "hold_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "screening_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_order",
+      "name": "ticket_order_fk_8",
+      "columns": [
+        "screening_id",
+        "cinema_id",
+        "film_id"
+      ],
+      "parent": "cinema_screening",
+      "targets": [
+        "id",
+        "cinema_id",
+        "film_id"
+      ],
+      "pairs": [
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "film_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_order_item",
+      "name": "ticket_order_item_fk_7",
+      "columns": [
+        "order_id",
+        "user_id",
+        "cinema_id",
+        "screening_id",
+        "film_id"
+      ],
+      "parent": "ticket_order",
+      "targets": [
+        "id",
+        "user_id",
+        "cinema_id",
+        "screening_id",
+        "film_id"
+      ],
+      "pairs": [
+        {
+          "column": "order_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "screening_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "film_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_order_item",
+      "name": "ticket_order_item_fk_8",
+      "columns": [
+        "screening_seat_id",
+        "screening_id",
+        "cinema_id",
+        "seat_id"
+      ],
+      "parent": "screening_seat",
+      "targets": [
+        "id",
+        "screening_id",
+        "cinema_id",
+        "seat_id"
+      ],
+      "pairs": [
+        {
+          "column": "screening_seat_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "screening_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "seat_id",
+          "childType": "bigint",
+          "parentColumn": "seat_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "payment_transaction",
+      "name": "payment_transaction_fk_6",
+      "columns": [
+        "order_id"
+      ],
+      "parent": "ticket_order",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "order_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket",
+      "name": "ticket_fk_4",
+      "columns": [
+        "order_item_id",
+        "user_id",
+        "cinema_id",
+        "screening_id"
+      ],
+      "parent": "ticket_order_item",
+      "targets": [
+        "id",
+        "user_id",
+        "cinema_id",
+        "screening_id"
+      ],
+      "pairs": [
+        {
+          "column": "order_item_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "screening_id",
+          "childType": "bigint",
+          "parentColumn": "screening_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_qr_token",
+      "name": "ticket_qr_token_fk_3",
+      "columns": [
+        "ticket_id",
+        "cinema_id"
+      ],
+      "parent": "ticket",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "ticket_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_verification_log",
+      "name": "ticket_verification_log_fk_2",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_verification_log",
+      "name": "ticket_verification_log_fk_3",
+      "columns": [
+        "operator_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "operator_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_verification_log",
+      "name": "ticket_verification_log_fk_4",
+      "columns": [
+        "ticket_id",
+        "cinema_id"
+      ],
+      "parent": "ticket",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "ticket_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_verification_log",
+      "name": "ticket_verification_log_fk_5",
+      "columns": [
+        "qr_token_id",
+        "ticket_id",
+        "cinema_id"
+      ],
+      "parent": "ticket_qr_token",
+      "targets": [
+        "id",
+        "ticket_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "qr_token_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "ticket_id",
+          "childType": "bigint",
+          "parentColumn": "ticket_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_request",
+      "name": "after_sale_request_fk_5",
+      "columns": [
+        "original_order_id",
+        "user_id",
+        "cinema_id"
+      ],
+      "parent": "ticket_order",
+      "targets": [
+        "id",
+        "user_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "original_order_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_request",
+      "name": "after_sale_request_fk_6",
+      "columns": [
+        "new_order_id",
+        "user_id",
+        "cinema_id"
+      ],
+      "parent": "ticket_order",
+      "targets": [
+        "id",
+        "user_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "new_order_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_request",
+      "name": "after_sale_request_fk_7",
+      "columns": [
+        "target_screening_id",
+        "cinema_id"
+      ],
+      "parent": "cinema_screening",
+      "targets": [
+        "id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "target_screening_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_request",
+      "name": "after_sale_request_fk_8",
+      "columns": [
+        "reviewer_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "reviewer_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_item",
+      "name": "after_sale_item_fk_3",
+      "columns": [
+        "request_id",
+        "original_order_id",
+        "cinema_id"
+      ],
+      "parent": "after_sale_request",
+      "targets": [
+        "id",
+        "original_order_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "request_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "original_order_id",
+          "childType": "bigint",
+          "parentColumn": "original_order_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_item",
+      "name": "after_sale_item_fk_4",
+      "columns": [
+        "original_order_item_id",
+        "original_order_id",
+        "cinema_id"
+      ],
+      "parent": "ticket_order_item",
+      "targets": [
+        "id",
+        "order_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "original_order_item_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "original_order_id",
+          "childType": "bigint",
+          "parentColumn": "order_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_item",
+      "name": "after_sale_item_fk_5",
+      "columns": [
+        "request_id",
+        "new_order_id",
+        "cinema_id"
+      ],
+      "parent": "after_sale_request",
+      "targets": [
+        "id",
+        "new_order_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "request_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "new_order_id",
+          "childType": "bigint",
+          "parentColumn": "new_order_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "after_sale_item",
+      "name": "after_sale_item_fk_6",
+      "columns": [
+        "new_order_item_id",
+        "new_order_id",
+        "cinema_id"
+      ],
+      "parent": "ticket_order_item",
+      "targets": [
+        "id",
+        "order_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "new_order_item_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "new_order_id",
+          "childType": "bigint",
+          "parentColumn": "order_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "payment_refund",
+      "name": "payment_refund_fk_4",
+      "columns": [
+        "payment_id",
+        "order_id",
+        "provider"
+      ],
+      "parent": "payment_transaction",
+      "targets": [
+        "id",
+        "order_id",
+        "provider"
+      ],
+      "pairs": [
+        {
+          "column": "payment_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "order_id",
+          "childType": "bigint",
+          "parentColumn": "order_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "provider",
+          "childType": "varchar(24)",
+          "parentColumn": "provider",
+          "parentType": "varchar(24)",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "payment_refund",
+      "name": "payment_refund_fk_5",
+      "columns": [
+        "after_sale_request_id",
+        "order_id"
+      ],
+      "parent": "after_sale_request",
+      "targets": [
+        "id",
+        "original_order_id"
+      ],
+      "pairs": [
+        {
+          "column": "after_sale_request_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "order_id",
+          "childType": "bigint",
+          "parentColumn": "original_order_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "order_status_history",
+      "name": "order_status_history_fk_1",
+      "columns": [
+        "order_id"
+      ],
+      "parent": "ticket_order",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "order_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "order_status_history",
+      "name": "order_status_history_fk_2",
+      "columns": [
+        "operator_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "operator_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_favorite_film",
+      "name": "user_favorite_film_fk_2",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_favorite_film",
+      "name": "user_favorite_film_fk_3",
+      "columns": [
+        "film_id"
+      ],
+      "parent": "film",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "member_account",
+      "name": "member_account_fk_3",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "member_account",
+      "name": "member_account_fk_4",
+      "columns": [
+        "level_id"
+      ],
+      "parent": "member_level",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "level_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "member_points_ledger",
+      "name": "member_points_ledger_fk_2",
+      "columns": [
+        "member_account_id"
+      ],
+      "parent": "member_account",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "member_account_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_member",
+      "name": "cinema_member_fk_3",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "cinema_member",
+      "name": "cinema_member_fk_4",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "coupon_template",
+      "name": "coupon_template_fk_1",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_coupon",
+      "name": "user_coupon_fk_3",
+      "columns": [
+        "template_id"
+      ],
+      "parent": "coupon_template",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "template_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_coupon",
+      "name": "user_coupon_fk_4",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "coupon_usage",
+      "name": "coupon_usage_fk_3",
+      "columns": [
+        "user_coupon_id",
+        "user_id"
+      ],
+      "parent": "user_coupon",
+      "targets": [
+        "id",
+        "user_id"
+      ],
+      "pairs": [
+        {
+          "column": "user_coupon_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "coupon_usage",
+      "name": "coupon_usage_fk_4",
+      "columns": [
+        "order_id",
+        "user_id",
+        "cinema_id"
+      ],
+      "parent": "ticket_order",
+      "targets": [
+        "id",
+        "user_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "order_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "announcement",
+      "name": "announcement_fk_1",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "announcement",
+      "name": "announcement_fk_2",
+      "columns": [
+        "publisher_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "publisher_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "marketing_activity",
+      "name": "marketing_activity_fk_1",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "marketing_activity",
+      "name": "marketing_activity_fk_2",
+      "columns": [
+        "publisher_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "publisher_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "marketing_activity",
+      "name": "marketing_activity_fk_3",
+      "columns": [
+        "reward_coupon_template_id"
+      ],
+      "parent": "coupon_template",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "reward_coupon_template_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "activity_participation",
+      "name": "activity_participation_fk_2",
+      "columns": [
+        "activity_id"
+      ],
+      "parent": "marketing_activity",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "activity_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "activity_participation",
+      "name": "activity_participation_fk_3",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "activity_participation",
+      "name": "activity_participation_fk_4",
+      "columns": [
+        "reward_user_coupon_id",
+        "user_id"
+      ],
+      "parent": "user_coupon",
+      "targets": [
+        "id",
+        "user_id"
+      ],
+      "pairs": [
+        {
+          "column": "reward_user_coupon_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "film_review",
+      "name": "film_review_fk_2",
+      "columns": [
+        "order_item_id",
+        "user_id",
+        "film_id",
+        "cinema_id"
+      ],
+      "parent": "ticket_order_item",
+      "targets": [
+        "id",
+        "user_id",
+        "film_id",
+        "cinema_id"
+      ],
+      "pairs": [
+        {
+          "column": "order_item_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "user_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "film_id",
+          "childType": "bigint",
+          "parentColumn": "film_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "cinema_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "film_review",
+      "name": "film_review_fk_3",
+      "columns": [
+        "reviewer_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "reviewer_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "review_reply",
+      "name": "review_reply_fk_1",
+      "columns": [
+        "review_id"
+      ],
+      "parent": "film_review",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "review_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "review_reply",
+      "name": "review_reply_fk_2",
+      "columns": [
+        "operator_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "operator_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_feedback",
+      "name": "user_feedback_fk_1",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_feedback",
+      "name": "user_feedback_fk_2",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_feedback",
+      "name": "user_feedback_fk_3",
+      "columns": [
+        "assigned_to"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "assigned_to",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "feedback_reply",
+      "name": "feedback_reply_fk_1",
+      "columns": [
+        "feedback_id"
+      ],
+      "parent": "user_feedback",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "feedback_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "feedback_reply",
+      "name": "feedback_reply_fk_2",
+      "columns": [
+        "author_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "author_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sensitive_word_rule",
+      "name": "sensitive_word_rule_fk_1",
+      "columns": [
+        "updated_by"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "updated_by",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "moderation_log",
+      "name": "moderation_log_fk_1",
+      "columns": [
+        "rule_id"
+      ],
+      "parent": "sensitive_word_rule",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "rule_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "moderation_log",
+      "name": "moderation_log_fk_2",
+      "columns": [
+        "reviewer_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "reviewer_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_audit_log",
+      "name": "sys_audit_log_fk_1",
+      "columns": [
+        "operator_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "operator_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "sys_audit_log",
+      "name": "sys_audit_log_fk_2",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_login_log",
+      "name": "user_login_log_fk_1",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_activity_event",
+      "name": "user_activity_event_fk_2",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "user_activity_event",
+      "name": "user_activity_event_fk_3",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "stat_cinema_daily",
+      "name": "stat_cinema_daily_fk_2",
+      "columns": [
+        "cinema_id"
+      ],
+      "parent": "cinema",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "cinema_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "idempotency_record",
+      "name": "idempotency_record_fk_2",
+      "columns": [
+        "user_id"
+      ],
+      "parent": "sys_user",
+      "targets": [
+        "id"
+      ],
+      "pairs": [
+        {
+          "column": "user_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "screening_seat",
+      "name": "screening_seat_fk_90",
+      "columns": [
+        "sold_order_item_id",
+        "id"
+      ],
+      "parent": "ticket_order_item",
+      "targets": [
+        "id",
+        "screening_seat_id"
+      ],
+      "pairs": [
+        {
+          "column": "sold_order_item_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "id",
+          "childType": "bigint",
+          "parentColumn": "screening_seat_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    },
+    {
+      "source": "ticket_order",
+      "name": "ticket_order_fk_91",
+      "columns": [
+        "settled_payment_id",
+        "id"
+      ],
+      "parent": "payment_transaction",
+      "targets": [
+        "id",
+        "order_id"
+      ],
+      "pairs": [
+        {
+          "column": "settled_payment_id",
+          "childType": "bigint",
+          "parentColumn": "id",
+          "parentType": "bigint",
+          "typeMatches": true
+        },
+        {
+          "column": "id",
+          "childType": "bigint",
+          "parentColumn": "order_id",
+          "parentType": "bigint",
+          "typeMatches": true
+        }
+      ],
+      "deleteRule": "RESTRICT",
+      "updateRule": "RESTRICT",
+      "childIndex": true,
+      "parentUnique": true,
+      "status": "PASS",
+      "orphanRows": 0
+    }
+  ],
+  "functionalTests": [
+    {
+      "name": "multi_table_catalog_query",
+      "status": "PASS",
+      "evidence": {
+        "sold": 1,
+        "available": 25,
+        "inventory": 26,
+        "screenings": 3
+      }
+    },
+    {
+      "name": "inventory_view_query",
+      "status": "PASS",
+      "evidence": {
+        "sold": 1,
+        "available": 9,
+        "occupancy": 10
+      }
+    },
+    {
+      "name": "realtime_sales_view_query",
+      "status": "PASS",
+      "evidence": {
+        "expectedDemoAmount": "40.00",
+        "provider": "MOCK"
+      }
+    },
+    {
+      "name": "insert_update_delete_savepoint_and_rollback",
+      "status": "PASS",
+      "evidence": {
+        "observed": [
+          {
+            "exists": 1,
+            "inserted": 1
+          },
+          {
+            "updated": 1,
+            "valueMatches": 1
+          },
+          {
+            "exists": 0,
+            "deleted": 1
+          },
+          {
+            "restoredBySavepoint": 1
+          },
+          {
+            "remainingAfterRollback": 0
+          }
+        ],
+        "transaction": "rolled back"
+      }
+    },
+    {
+      "name": "update_existing_record_rollback",
+      "status": "PASS",
+      "evidence": {
+        "observed": [
+          {
+            "duringTransaction": 101
+          },
+          {
+            "afterRollback": 100
+          }
+        ],
+        "transaction": "rolled back"
+      }
+    },
+    {
+      "name": "linked_catalog_lock_and_order_rollback",
+      "status": "PASS",
+      "evidence": {
+        "observed": [
+          {
+            "joinedOrder": 1,
+            "inventoryState": "LOCKED"
+          },
+          {
+            "remainingRows": 0
+          }
+        ],
+        "transaction": "rolled back"
+      }
+    },
+    {
+      "name": "duplicate_username_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_cinema_code_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_hall_name_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_physical_seat_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_screening_inventory_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_favorite_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_global_role_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_payment_trade_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_qr_nonce_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_inflight_after_sale_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_successful_verification_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_coupon_occupation_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_callback_event_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "duplicate_active_sale_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1062,
+        "actualError": "1062",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "unknown_parent_cinema_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1452,
+        "actualError": "1452",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "cross_cinema_seat_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1452,
+        "actualError": "1452",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "cross_cinema_screening_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1452,
+        "actualError": "1452",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "order_hold_owner_mismatch_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1452,
+        "actualError": "1452",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "role_scope_mismatch_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1452,
+        "actualError": "1452",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "sold_seat_owner_mismatch_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1452,
+        "actualError": "1452",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "refund_provider_mismatch_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1452,
+        "actualError": "1452",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "referenced_cinema_delete_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 1451,
+        "actualError": "1451",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "negative_price_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 3819,
+        "actualError": "3819",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "invalid_inventory_lock_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 3819,
+        "actualError": "3819",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "negative_member_points_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 3819,
+        "actualError": "3819",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "inconsistent_order_amount_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 3819,
+        "actualError": "3819",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "invalid_review_rating_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 3819,
+        "actualError": "3819",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "coupon_overissue_rejected",
+      "status": "PASS",
+      "evidence": {
+        "expectedError": 3819,
+        "actualError": "3819",
+        "transaction": "connection-close rollback on error"
+      }
+    },
+    {
+      "name": "all_test_writes_rolled_back",
+      "status": "PASS",
+      "evidence": {
+        "tablesCompared": 55,
+        "changedTables": [],
+        "rowCountsAndContentMatch": true
+      }
+    }
+  ],
+  "serverVersion": "8.0.44",
+  "structure": {
+    "tableCount": 55,
+    "viewCount": 4,
+    "columnCount": 645,
+    "primaryKeys": 55,
+    "uniqueIndexes": 84,
+    "ordinaryIndexesDeclared": 54,
+    "foreignKeys": 99,
+    "foreignColumnPairs": 162,
+    "typeMismatch": 0,
+    "checkConstraints": 128
+  },
+  "dataBefore": {
+    "film": 0,
+    "cinema": 0,
+    "ticket": 0,
+    "sys_role": 4,
+    "sys_user": 0,
+    "seat_hold": 0,
+    "sys_region": 6,
+    "cinema_film": 0,
+    "cinema_hall": 0,
+    "cinema_seat": 0,
+    "film_review": 0,
+    "user_coupon": 0,
+    "announcement": 0,
+    "coupon_usage": 0,
+    "member_level": 3,
+    "outbox_event": 0,
+    "review_reply": 0,
+    "ticket_order": 0,
+    "cinema_member": 0,
+    "film_category": 8,
+    "sys_audit_log": 0,
+    "sys_user_role": 0,
+    "user_feedback": 0,
+    "feedback_reply": 0,
+    "member_account": 0,
+    "moderation_log": 0,
+    "payment_refund": 0,
+    "screening_seat": 0,
+    "seat_hold_item": 0,
+    "sys_permission": 41,
+    "user_login_log": 0,
+    "after_sale_item": 0,
+    "coupon_template": 0,
+    "ticket_qr_token": 0,
+    "cinema_screening": 0,
+    "film_category_rel": 0,
+    "stat_cinema_daily": 0,
+    "ticket_order_item": 0,
+    "after_sale_request": 0,
+    "cinema_application": 0,
+    "idempotency_record": 0,
+    "marketing_activity": 0,
+    "user_favorite_film": 0,
+    "cinema_pricing_rule": 0,
+    "payment_transaction": 0,
+    "sensitive_word_rule": 0,
+    "stat_platform_daily": 0,
+    "sys_role_permission": 42,
+    "user_activity_event": 0,
+    "member_points_ledger": 0,
+    "order_status_history": 0,
+    "activity_participation": 0,
+    "payment_callback_event": 0,
+    "ticket_verification_log": 0,
+    "cinema_admin_application": 0
+  },
+  "demoAction": "imported_into_empty_business_tables",
+  "dataAfterSeed": {
+    "film": 2,
+    "cinema": 2,
+    "ticket": 1,
+    "sys_role": 4,
+    "sys_user": 4,
+    "seat_hold": 1,
+    "sys_region": 6,
+    "cinema_film": 3,
+    "cinema_hall": 2,
+    "cinema_seat": 16,
+    "film_review": 0,
+    "user_coupon": 1,
+    "announcement": 2,
+    "coupon_usage": 0,
+    "member_level": 3,
+    "outbox_event": 0,
+    "review_reply": 0,
+    "ticket_order": 1,
+    "cinema_member": 1,
+    "film_category": 8,
+    "sys_audit_log": 0,
+    "sys_user_role": 4,
+    "user_feedback": 0,
+    "feedback_reply": 0,
+    "member_account": 1,
+    "moderation_log": 0,
+    "payment_refund": 0,
+    "screening_seat": 26,
+    "seat_hold_item": 1,
+    "sys_permission": 41,
+    "user_login_log": 0,
+    "after_sale_item": 0,
+    "coupon_template": 1,
+    "ticket_qr_token": 0,
+    "cinema_screening": 3,
+    "film_category_rel": 3,
+    "stat_cinema_daily": 0,
+    "ticket_order_item": 1,
+    "after_sale_request": 0,
+    "cinema_application": 0,
+    "idempotency_record": 0,
+    "marketing_activity": 1,
+    "user_favorite_film": 1,
+    "cinema_pricing_rule": 0,
+    "payment_transaction": 1,
+    "sensitive_word_rule": 0,
+    "stat_platform_daily": 0,
+    "sys_role_permission": 42,
+    "user_activity_event": 1,
+    "member_points_ledger": 1,
+    "order_status_history": 2,
+    "activity_participation": 0,
+    "payment_callback_event": 0,
+    "ticket_verification_log": 0,
+    "cinema_admin_application": 0
+  },
+  "dataAfterTests": {
+    "film": 2,
+    "cinema": 2,
+    "ticket": 1,
+    "sys_role": 4,
+    "sys_user": 4,
+    "seat_hold": 1,
+    "sys_region": 6,
+    "cinema_film": 3,
+    "cinema_hall": 2,
+    "cinema_seat": 16,
+    "film_review": 0,
+    "user_coupon": 1,
+    "announcement": 2,
+    "coupon_usage": 0,
+    "member_level": 3,
+    "outbox_event": 0,
+    "review_reply": 0,
+    "ticket_order": 1,
+    "cinema_member": 1,
+    "film_category": 8,
+    "sys_audit_log": 0,
+    "sys_user_role": 4,
+    "user_feedback": 0,
+    "feedback_reply": 0,
+    "member_account": 1,
+    "moderation_log": 0,
+    "payment_refund": 0,
+    "screening_seat": 26,
+    "seat_hold_item": 1,
+    "sys_permission": 41,
+    "user_login_log": 0,
+    "after_sale_item": 0,
+    "coupon_template": 1,
+    "ticket_qr_token": 0,
+    "cinema_screening": 3,
+    "film_category_rel": 3,
+    "stat_cinema_daily": 0,
+    "ticket_order_item": 1,
+    "after_sale_request": 0,
+    "cinema_application": 0,
+    "idempotency_record": 0,
+    "marketing_activity": 1,
+    "user_favorite_film": 1,
+    "cinema_pricing_rule": 0,
+    "payment_transaction": 1,
+    "sensitive_word_rule": 0,
+    "stat_platform_daily": 0,
+    "sys_role_permission": 42,
+    "user_activity_event": 1,
+    "member_points_ledger": 1,
+    "order_status_history": 2,
+    "activity_participation": 0,
+    "payment_callback_event": 0,
+    "ticket_verification_log": 0,
+    "cinema_admin_application": 0
+  },
+  "rollbackProof": {
+    "tablesCompared": 55,
+    "changedTables": []
+  },
+  "status": "PASS"
+}

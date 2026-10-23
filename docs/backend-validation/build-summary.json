@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-23",
+  "result": "PASS",
+  "jdk": "Microsoft OpenJDK 21.0.11",
+  "maven": "3.9.4",
+  "packaging": {
+    "result": "PASS",
+    "privateEntries": 0,
+    "applicationFilesScanned": 23,
+    "secretLiteralCandidates": 0,
+    "generatedDefaultPassword": false,
+    "jarSha256": "059803fc417f79872d0f0edee4182c7adabaf00f09e764918ca5c2a1d09cf1c9"
+  },
+  "versions": {
+    "springBoot": "3.5.16",
+    "springFramework": "6.2.19",
+    "springSecurity": "6.5.11",
+    "mybatisPlus": "3.5.17",
+    "springdoc": "2.8.17",
+    "mysqlConnectorJ": "9.7.0",
+    "springDataRedis": "3.5.13",
+    "lettuce": "6.6.0.RELEASE",
+    "hibernateValidator": "8.0.3.Final",
+    "lombok": "1.18.46",
+    "junitJupiter": "5.12.2"
+  },
+  "commands": [
+    {
+      "command": "mvn -Plive verify",
+      "status": "PASS",
+      "unitTests": 23,
+      "integrationTests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "command": "node scripts/dev.cjs test --config-file <nonexistent-file> (with JDK/Maven/cache options)",
+      "status": "PASS",
+      "tests": 23,
+      "privateConfigurationLoaded": false
+    },
+    {
+      "command": "java -jar target/cinema-backend-0.1.0-SNAPSHOT.jar --spring.profiles.active=dev --server.address=127.0.0.1 --server.port=18080",
+      "status": "PASS",
+      "httpChecks": 17,
+      "testProcessStopped": true
+    }
+  ],
+  "database": {
+    "name": "pzh_cinema",
+    "version": "8.0.44",
+    "structure": {
+      "tableCount": 55,
+      "viewCount": 4,
+      "columnCount": 645,
+      "primaryKeys": 55,
+      "uniqueIndexes": 84,
+      "ordinaryIndexesDeclared": 54,
+      "foreignKeys": 99,
+      "foreignColumnPairs": 162,
+      "typeMismatch": 0,
+      "checkConstraints": 128
+    },
+    "discrepancies": [],
+    "schemaChanges": false,
+    "dataWrites": false
+  },
+  "redis": {
+    "version": "5.0.14.1",
+    "port": 6378,
+    "authentication": true,
+    "ping": "PONG"
+  },
+  "review": {
+    "independentReadOnlyReview": true,
+    "importantFindings": 1,
+    "fixed": [
+      "Indexed scalar pagination inputs now return 400 rather than 500, covered by RED-to-GREEN MockMvc tests and real HTTP checks."
+    ],
+    "deferredMinors": []
+  }
+}
